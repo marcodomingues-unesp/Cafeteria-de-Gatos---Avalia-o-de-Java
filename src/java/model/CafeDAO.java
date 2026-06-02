@@ -12,9 +12,8 @@ import com.projeto_java.Conexao;
 
 public class CafeDAO {
 
-    // =========================
+
     // LISTAR
-    // =========================
     public List<CafeDTO> selecionarCafe() {
 
         List<CafeDTO> lista = new ArrayList<>();
@@ -45,12 +44,14 @@ public class CafeDAO {
         return lista;
     }
 
-    // =========================
     // INSERIR
-    // =========================
     public void comprarCafe(CafeDTO cafe) {
 
-        String sql = "INSERT INTO tabela_cafe (nome_produto, tamanho_produto, tipo_torra, preco) VALUES (?, ?, ?, ?)";
+        String sql = """
+                INSERT INTO tabela_cafe
+                (nome_produto, tamanho_produto, tipo_torra, preco)
+                VALUES (?, ?, ?, ?)
+                """;
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
@@ -67,12 +68,17 @@ public class CafeDAO {
         }
     }
 
-    // =========================
     // UPDATE
-    // =========================
     public void alterarPedido(CafeDTO cafe) {
 
-        String sql = "UPDATE tabela_cafe SET nome_produto=?, tamanho_produto=?, tipo_torra=?, preco=? WHERE id=?";
+        String sql = """
+                UPDATE tabela_cafe
+                SET nome_produto = ?,
+                    tamanho_produto = ?,
+                    tipo_torra = ?,
+                    preco = ?
+                WHERE id = ?
+                """;
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
@@ -90,12 +96,10 @@ public class CafeDAO {
         }
     }
 
-    // =========================
     // DELETE (1 ITEM)
-    // =========================
     public void cancelarPedido(int id) {
 
-        String sql = "DELETE FROM tabela_cafe WHERE id=?";
+        String sql = "DELETE FROM tabela_cafe WHERE id = ?";
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
@@ -109,22 +113,22 @@ public class CafeDAO {
         }
     }
 
-    // =========================
-    // 🔥 DELETE TUDO (RESET COMANDAS)
-    // =========================
+    // DELETAR TUDO
     public void excluirTodosPedidos() {
 
-        String sql1 = "DELETE FROM tabela_cafe";
-        String sql2 = "ALTER TABLE tabela_cafe AUTO_INCREMENT = 1";
+        String sql = "TRUNCATE TABLE tabela_cafe RESTART IDENTITY";
 
         try (Connection conexao = Conexao.conectar();
              Statement stmt = conexao.createStatement()) {
 
-            stmt.executeUpdate(sql1);
-            stmt.executeUpdate(sql2);
+            stmt.executeUpdate(sql);
+
+            System.out.println("Todos os pedidos foram excluídos com sucesso.");
 
         } catch (SQLException e) {
+
             System.out.println("Erro DELETE ALL: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
