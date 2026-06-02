@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1100.0"
+            stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.projeto_java.MainController">
+
+    <children>
+
+        <VBox spacing="20"
+              AnchorPane.bottomAnchor="20"
+              AnchorPane.leftAnchor="20"
+              AnchorPane.rightAnchor="20"
+              AnchorPane.topAnchor="20"
+              styleClass="card">
+
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
+
+            <!-- TÍTULO -->
+            <Label text="🐈☕Cafeteria dos Gatos"
+                   styleClass="titulo"/>
+
+            <!-- FORMULÁRIO -->
+            <GridPane hgap="15" vgap="15">
+
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                </columnConstraints>
+
+                <Label text="Produto" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+
+                <Label text="Tamanho" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Torra" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+
+                <Label text="Preço" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                <TextField fx:id="txtNome"
+                           promptText="Ex: Cappuccino"
+                           GridPane.rowIndex="1"
+                           GridPane.columnIndex="0"/>
+
+                <ComboBox fx:id="comboTamanho"
+                          promptText="Selecione"
+                          GridPane.rowIndex="1"
+                          GridPane.columnIndex="1"/>
+
+                <ComboBox fx:id="comboTorra"
+                          promptText="Selecione"
+                          GridPane.rowIndex="1"
+                          GridPane.columnIndex="2"/>
+
+                <TextField fx:id="txtPreco"
+                           promptText="R$ 0,00"
+                           GridPane.rowIndex="1"
+                           GridPane.columnIndex="3"/>
+
+            </GridPane>
+
+            <!-- BOTÕES -->
+            <HBox spacing="12">
+
+                <Button fx:id="btnNovo"
+                        text="Novo Pedido"
+                        onAction="#comprarCafe"/>
+
+                <Button fx:id="btnCancelar"
+                        text="Cancelar Pedido"
+                        onAction="#cancelarPedido"/>
+
+                <Button fx:id="btnAlterar"
+                        text="Alterar"
+                        onAction="#alterarPedido"/>
+
+                <Button fx:id="btnExcluir"
+                        text="Excluir tudo"
+                        onAction="#excluirTudo"/>
+
+            </HBox>
+
+            <!-- TABELA -->
+            <TableView fx:id="tablePedidos"
+                       VBox.vgrow="ALWAYS">
+
+                <columns>
+
+                    <TableColumn fx:id="colId"
+                                 text="Comanda"
+                                 prefWidth="100"/>
+
+                    <TableColumn fx:id="colNome"
+                                 text="Produto"
+                                 prefWidth="300"/>
+
+                    <TableColumn fx:id="colTamanho"
+                                 text="Tamanho"
+                                 prefWidth="180"/>
+
+                    <TableColumn fx:id="colTorra"
+                                 text="Torra"
+                                 prefWidth="200"/>
+
+                    <TableColumn fx:id="colPreco"
+                                 text="Preço"
+                                 prefWidth="230"/>
+
+                </columns>
+
+            </TableView>
+
+        </VBox>
+
+    </children>
+
+</AnchorPane>
