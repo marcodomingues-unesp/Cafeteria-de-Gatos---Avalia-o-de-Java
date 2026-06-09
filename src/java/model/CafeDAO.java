@@ -13,7 +13,7 @@ import com.projeto_java.Conexao;
 public class CafeDAO {
 
 
-    // LISTAR
+    // Lista dos produtos adicionados
     public List<CafeDTO> selecionarCafe() {
 
         List<CafeDTO> lista = new ArrayList<>();
@@ -44,7 +44,10 @@ public class CafeDAO {
         return lista;
     }
 
-    // INSERIR
+
+
+
+    // Insere um novo pedido
     public void comprarCafe(CafeDTO cafe) {
 
         String sql = """
@@ -68,7 +71,7 @@ public class CafeDAO {
         }
     }
 
-    // UPDATE
+    // Atualiza um pedido existente
     public void alterarPedido(CafeDTO cafe) {
 
         String sql = """
@@ -96,7 +99,7 @@ public class CafeDAO {
         }
     }
 
-    // DELETE (1 ITEM)
+    // Remove um pedido pelo ID
     public void cancelarPedido(int id) {
 
         String sql = "DELETE FROM tabela_cafe WHERE id = ?";
@@ -113,7 +116,7 @@ public class CafeDAO {
         }
     }
 
-    // DELETAR TUDO
+    // Remove todos os pedidos e reinicia o ID
     public void excluirTodosPedidos() {
 
         String sql = "TRUNCATE TABLE tabela_cafe RESTART IDENTITY";
