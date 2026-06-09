@@ -23,11 +23,10 @@
                 <Insets top="25" right="25" bottom="25" left="25"/>
             </padding>
 
-            <!-- TÍTULO -->
             <Label text="🐈☕Cafeteria dos Gatos"
                    styleClass="titulo"/>
 
-            <!-- FORMULÁRIO -->
+            <!-- Formulário do pedido-->
             <GridPane hgap="15" vgap="15">
 
                 <columnConstraints>
@@ -38,11 +37,8 @@
                 </columnConstraints>
 
                 <Label text="Produto" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-
                 <Label text="Tamanho" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
                 <Label text="Torra" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-
                 <Label text="Preço" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
 
                 <TextField fx:id="txtNome"
@@ -67,7 +63,7 @@
 
             </GridPane>
 
-            <!-- BOTÕES -->
+            <!-- Botões dos metódos -->
             <HBox spacing="12">
 
                 <Button fx:id="btnNovo"
@@ -88,7 +84,7 @@
 
             </HBox>
 
-            <!-- TABELA -->
+            <!-- Tabela de pedidos inseridos-->
             <TableView fx:id="tablePedidos"
                        VBox.vgrow="ALWAYS">
 

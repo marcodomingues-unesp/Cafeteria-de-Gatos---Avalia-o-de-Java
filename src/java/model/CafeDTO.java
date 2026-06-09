@@ -1,5 +1,7 @@
 package model;
 
+// DTO para transferir os dados dos produtos
+
 public class CafeDTO {
 
     private int id;
@@ -18,10 +20,6 @@ public class CafeDTO {
         this.tipoTorra = tipoTorra;
         this.preco = preco;
     }
-
-    // =========================
-    // GETTERS E SETTERS
-    // =========================
 
     public int getId() {
         return id;

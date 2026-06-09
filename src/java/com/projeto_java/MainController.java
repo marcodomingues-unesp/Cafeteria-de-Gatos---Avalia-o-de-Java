@@ -40,9 +40,7 @@ public class MainController {
         carregarTabela();
     }
 
-    // =========================
-    // CREATE
-    // =========================
+    // Cadastrar pedido
     @FXML
     private void comprarCafe() {
 
@@ -60,18 +58,32 @@ public class MainController {
         limparCampos();
     }
 
-    // =========================
-    // CANCELAR (LIMPA SELEÇÃO)
-    // =========================
+    // Cancelar pedido selecionado
     @FXML
     private void cancelarPedido() {
-        limparCampos();
-        tablePedidos.getSelectionModel().clearSelection();
+
+        CafeDTO cafe = tablePedidos.getSelectionModel().getSelectedItem();
+
+        if (cafe == null) {
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cancelar Pedido");
+        alert.setHeaderText(null);
+        alert.setContentText("Deseja cancelar este pedido?");
+
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+
+            dao.cancelarPedido(cafe.getId());
+
+            carregarTabela();
+            limparCampos();
+            tablePedidos.getSelectionModel().clearSelection();
+        }
     }
 
-    // =========================
-    // UPDATE
-    // =========================
+    // Alterar pedido
     @FXML
     private void alterarPedido() {
 
@@ -90,9 +102,6 @@ public class MainController {
         limparCampos();
     }
 
-    // =========================
-    // DELETE 1 ITEM
-    // =========================
     @FXML
     private void excluirPedidos() {
 
@@ -106,9 +115,7 @@ public class MainController {
         limparCampos();
     }
 
-    // =========================
-    // 🔥 EXCLUIR TUDO (RESET COMANDAS)
-    // =========================
+    // Excluir todos os pedidos
     @FXML
     private void excluirTudo() {
 
@@ -117,7 +124,7 @@ public class MainController {
         alert.setHeaderText(null);
         alert.setContentText("Tem certeza que deseja EXCLUIR TODOS os pedidos?");
 
-        if (alert.showAndWait().get() == ButtonType.OK) {
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
 
             dao.excluirTodosPedidos();
 
@@ -126,9 +133,6 @@ public class MainController {
         }
     }
 
-    // =========================
-    // LIMPAR CAMPOS
-    // =========================
     private void limparCampos() {
         txtNome.clear();
         txtPreco.clear();
@@ -136,9 +140,6 @@ public class MainController {
         comboTorra.getSelectionModel().clearSelection();
     }
 
-    // =========================
-    // CARREGAR TABELA
-    // =========================
     private void carregarTabela() {
 
         List<CafeDTO> lista = dao.selecionarCafe();
@@ -147,9 +148,7 @@ public class MainController {
         tablePedidos.getItems().addAll(lista);
     }
 
-    // =========================
-    // VALIDAÇÃO
-    // =========================
+    // Validar campos do formulário
     private boolean validar() {
 
         if (txtNome.getText().isEmpty()

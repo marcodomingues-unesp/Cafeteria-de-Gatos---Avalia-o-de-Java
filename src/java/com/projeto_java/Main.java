@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+//Inicializa a aplicação com JavaFX
+
 public class Main extends Application {
 
     @Override
