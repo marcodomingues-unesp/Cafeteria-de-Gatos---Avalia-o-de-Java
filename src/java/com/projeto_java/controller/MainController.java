@@ -1,4 +1,4 @@
-package com.projeto_java;
+package com.projeto_java.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -7,8 +7,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.CafeDAO;
-import model.CafeDTO;
+import model.dao.CafeDAO;
+import model.dto.CafeDTO;
+
+import com.projeto_java.util.AlertUtil;
+import com.projeto_java.validator.CafeValidator;
 
 import java.util.List;
 
@@ -47,23 +50,18 @@ public class MainController {
     @FXML
     private TableColumn<CafeDTO, Double> colPreco;
 
-    private final CafeDAO obj = new CafeDAO();
 
     @FXML
     public void initialize() {
 
-        comboTamanho.getItems().addAll(
-                "Pequeno",
-                "Médio",
-                "Grande"
+        // Opções do tamanho
+        comboTamanho.getItems().addAll("Pequeno", "Médio", "Grande");
+
+        // Opções do tipo de torra
+        comboTorra.getItems().addAll("Clara", "Média", "Escura"
         );
 
-        comboTorra.getItems().addAll(
-                "Clara",
-                "Média",
-                "Escura"
-        );
-
+        // Configuração das colunas da tabela
         colId.setCellValueFactory(
                 new PropertyValueFactory<>("id")
         );
@@ -91,6 +89,8 @@ public class MainController {
         carregarDadosSelecionados();
     }
 
+
+    // Permite somente números e ponto no campo de preço
     private void bloquearCampoPreco() {
 
         txtPreco.textProperty().addListener(
@@ -106,6 +106,8 @@ public class MainController {
         );
     }
 
+
+    // Carrega os dados do pedido selecionado na tabela
     private void carregarDadosSelecionados() {
 
         tablePedidos.getSelectionModel()
@@ -133,6 +135,8 @@ public class MainController {
                 });
     }
 
+
+    // Cadastrar um novo pedido
     @FXML
     private void comprarCafe() {
 
@@ -158,27 +162,31 @@ public class MainController {
                 Double.parseDouble(txtPreco.getText())
         );
 
-        obj.comprarCafe(cafe);
+        CafeDAO dao = new CafeDAO();
+
+        dao.comprarCafe(cafe);
 
         carregarTabela();
 
         limparCampos();
 
-        lblMensagem.setText(
+        AlertUtil.showInformation(
                 "Pedido cadastrado com sucesso."
         );
     }
 
+
+    // Alterar um pedido existente
     @FXML
     private void alterarPedido() {
 
-        CafeDTO cafe =
-                tablePedidos.getSelectionModel()
-                        .getSelectedItem();
+        CafeDTO cafe = tablePedidos
+                .getSelectionModel()
+                .getSelectedItem();
 
         if (cafe == null) {
 
-            lblMensagem.setText(
+            AlertUtil.showWarning(
                     "Selecione um pedido para alterar."
             );
 
@@ -205,7 +213,9 @@ public class MainController {
                 Double.parseDouble(txtPreco.getText())
         );
 
-        obj.alterarPedido(cafe);
+        CafeDAO dao = new CafeDAO();
+
+        dao.alterarPedido(cafe);
 
         carregarTabela();
 
@@ -214,28 +224,39 @@ public class MainController {
         tablePedidos.getSelectionModel()
                 .clearSelection();
 
-        lblMensagem.setText(
+        AlertUtil.showInformation(
                 "Pedido alterado com sucesso."
         );
     }
 
+
+    // Cancelar um pedido
     @FXML
     private void cancelarPedido() {
 
-        CafeDTO cafe =
-                tablePedidos.getSelectionModel()
-                        .getSelectedItem();
+        CafeDTO cafe = tablePedidos
+                .getSelectionModel()
+                .getSelectedItem();
 
         if (cafe == null) {
 
-            lblMensagem.setText(
+            AlertUtil.showWarning(
                     "Selecione um pedido para cancelar."
             );
 
             return;
         }
 
-        obj.cancelarPedido(cafe.getId());
+        if (!AlertUtil.showConfirmation(
+                "Deseja realmente cancelar este pedido?"
+        )) {
+
+            return;
+        }
+
+        CafeDAO dao = new CafeDAO();
+
+        dao.cancelarPedido(cafe.getId());
 
         carregarTabela();
 
@@ -244,15 +265,26 @@ public class MainController {
         tablePedidos.getSelectionModel()
                 .clearSelection();
 
-        lblMensagem.setText(
+        AlertUtil.showInformation(
                 "Pedido cancelado com sucesso."
         );
     }
 
+
+    // Excluir todos os pedidos
     @FXML
     private void excluirTudo() {
 
-        obj.excluirTodosPedidos();
+        if (!AlertUtil.showConfirmation(
+                "Deseja realmente excluir todos os pedidos?"
+        )) {
+
+            return;
+        }
+
+        CafeDAO dao = new CafeDAO();
+
+        dao.excluirTodosPedidos();
 
         carregarTabela();
 
@@ -261,11 +293,13 @@ public class MainController {
         tablePedidos.getSelectionModel()
                 .clearSelection();
 
-        lblMensagem.setText(
+        AlertUtil.showInformation(
                 "Todos os pedidos foram removidos."
         );
     }
 
+
+    // Limpar formulário
     @FXML
     private void limparFormulario() {
 
@@ -274,11 +308,13 @@ public class MainController {
         tablePedidos.getSelectionModel()
                 .clearSelection();
 
-        lblMensagem.setText(
+        AlertUtil.showInformation(
                 "Campos limpos."
         );
     }
 
+
+    // Limpa os campos do formulário
     private void limparCampos() {
 
         txtNome.clear();
@@ -292,93 +328,146 @@ public class MainController {
                 .clearSelection();
 
         txtNome.setStyle("");
+
         txtPreco.setStyle("");
+
         comboTamanho.setStyle("");
+
         comboTorra.setStyle("");
+
+        lblMensagem.setText("");
     }
 
+
+    // Carrega os pedidos na tabela
     private void carregarTabela() {
 
-        List<CafeDTO> lista =
-                obj.selecionarCafe();
+        CafeDAO dao = new CafeDAO();
+
+        List<CafeDTO> lista = dao.selecionarCafe();
 
         tablePedidos.getItems().clear();
 
         tablePedidos.getItems().addAll(lista);
     }
 
+
+    // Validação do formulário
     private boolean validar() {
 
+        // Limpa as bordas vermelhas anteriores
         txtNome.setStyle("");
+
         txtPreco.setStyle("");
+
         comboTamanho.setStyle("");
+
         comboTorra.setStyle("");
 
-        boolean valido = true;
 
-        if (txtNome.getText().trim().isEmpty()) {
+        String nomeProduto = txtNome.getText().trim();
+
+        String tamanhoProduto = comboTamanho.getValue();
+
+        String tipoTorra = comboTorra.getValue();
+
+        String precoTexto = txtPreco.getText().trim();
+
+
+        boolean camposVazios = false;
+
+
+        // Verifica nome
+        if (nomeProduto.isEmpty()) {
 
             txtNome.setStyle(
                     "-fx-border-color: red;"
             );
 
-            valido = false;
+            camposVazios = true;
         }
 
-        if (txtPreco.getText().trim().isEmpty()) {
+
+        // Verifica preço
+        if (precoTexto.isEmpty()) {
 
             txtPreco.setStyle(
                     "-fx-border-color: red;"
             );
 
-            valido = false;
+            camposVazios = true;
         }
 
-        if (comboTamanho.getValue() == null) {
+
+        // Verifica tamanho
+        if (tamanhoProduto == null) {
 
             comboTamanho.setStyle(
                     "-fx-border-color: red;"
             );
 
-            valido = false;
+            camposVazios = true;
         }
 
-        if (comboTorra.getValue() == null) {
+
+        // Verifica tipo de torra
+        if (tipoTorra == null) {
 
             comboTorra.setStyle(
                     "-fx-border-color: red;"
             );
 
-            valido = false;
+            camposVazios = true;
         }
 
-        if (!valido) {
 
-            lblMensagem.setText(
+        // Se algum campo estiver vazio
+        if (camposVazios) {
+
+            AlertUtil.showWarning(
                     "Preencha todos os campos obrigatórios."
             );
 
             return false;
         }
 
+
+        // Converte o preço para double
+        double preco;
+
         try {
 
-            Double.parseDouble(
-                    txtPreco.getText()
-            );
+            preco = Double.parseDouble(precoTexto);
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
             txtPreco.setStyle(
                     "-fx-border-color: red;"
             );
 
-            lblMensagem.setText(
+            AlertUtil.showWarning(
                     "Preço inválido."
             );
 
             return false;
         }
+
+
+        // Chama o CafeValidator
+        if (!CafeValidator.validarCafe(
+                nomeProduto,
+                tamanhoProduto,
+                tipoTorra,
+                preco
+        )) {
+
+            txtNome.setStyle(
+                    "-fx-border-color: red;"
+            );
+
+            return false;
+        }
+
 
         lblMensagem.setText("");
 

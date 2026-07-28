@@ -1,4 +1,4 @@
-package model;
+package model.dto;
 
 // DTO para transferir os dados dos produtos
 

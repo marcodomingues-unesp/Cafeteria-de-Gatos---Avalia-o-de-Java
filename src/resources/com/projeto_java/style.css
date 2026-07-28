@@ -1,182 +1,612 @@
+    /* =========================================================
+       MARAGATO CAFÉ
+       Tema moderno — Café / Vermelho / Bege / Marrom
+       Inspirado em cafeterias premium
+       ========================================================= */
+
+
+    /* =========================================================
+       ROOT — FUNDO PRINCIPAL
+       ========================================================= */
+
 .root {
     -fx-font-family: "Segoe UI";
-    -fx-background-color: linear-gradient(to bottom right, #3E2723, #5D4037);
+    -fx-background-color: #F3EBDD;
 }
 
-/* Card principal */
+
+/* =========================================================
+   CARD PRINCIPAL
+   ========================================================= */
+
 .card {
-    -fx-background-color: white;
-    -fx-background-radius: 18;
-    -fx-border-radius: 18;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0.2, 0, 4);
+    -fx-background-color: #FFFDF8;
+
+    -fx-background-radius: 22;
+    -fx-border-radius: 22;
+
+    -fx-border-color: #E5D7C5;
+    -fx-border-width: 1;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(62, 39, 35, 0.18),
+            25,
+            0.20,
+            0,
+            8
+    );
+
+    -fx-padding: 25;
 }
 
-/* Título */
+
+/* =========================================================
+   TÍTULO
+   ========================================================= */
+
 .titulo {
+    -fx-font-family: "Segoe UI";
     -fx-font-size: 30px;
     -fx-font-weight: bold;
-    -fx-text-fill: #4E342E;
+
+    -fx-text-fill: #5A3025;
+
     -fx-alignment: center;
 }
 
-/* Texto padrão */
+
+/* =========================================================
+   SUBTÍTULOS
+   ========================================================= */
+
+.subtitulo {
+    -fx-font-size: 15px;
+    -fx-font-weight: normal;
+
+    -fx-text-fill: #8A6A58;
+}
+
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
 .label {
-    -fx-font-size: 14px;
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-text-fill: #5D4037;
+
+    -fx-text-fill: #5A3025;
 }
 
-/* Label de mensagens */
+
+/* =========================================================
+   MENSAGENS
+   ========================================================= */
+
 .mensagem {
-    -fx-font-size: 14px;
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-text-fill: #C62828;
-    -fx-padding: 5 0 5 0;
+
+    -fx-text-fill: #B3261E;
+
+    -fx-padding: 6 0 6 0;
 }
 
-/* Atalhos */
+
+/* =========================================================
+   ATALHOS / TEXTOS AUXILIARES
+   ========================================================= */
+
 .atalhos {
     -fx-font-size: 12px;
     -fx-font-style: italic;
     -fx-font-weight: normal;
-    -fx-text-fill: #757575;
+
+    -fx-text-fill: #9A8170;
 }
 
-/* Campos */
-.text-field,
-.combo-box {
-    -fx-background-color: #FAFAFA;
-    -fx-border-color: #D7CCC8;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-padding: 10;
+
+/* =========================================================
+   CAMPOS DE TEXTO
+   ========================================================= */
+
+.text-field {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: #D9C8B5;
+    -fx-border-width: 1.2;
+
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    -fx-padding: 11 14 11 14;
+
     -fx-font-size: 14px;
+    -fx-text-fill: #4A3028;
+
+    -fx-prompt-text-fill: #B39A87;
 }
 
-.text-field:focused,
-.combo-box:focused {
-    -fx-border-color: #6D4C41;
+
+/* =========================================================
+   CAMPO FOCADO
+   ========================================================= */
+
+.text-field:focused {
+
+    -fx-background-color: white;
+
+    -fx-border-color: #8B3A2E;
     -fx-border-width: 2;
+
     -fx-effect: dropshadow(
             gaussian,
-            rgba(109,76,65,0.3),
+            rgba(139, 58, 46, 0.20),
             10,
+            0.20,
+            0,
+            0
+    );
+}
+
+
+/* =========================================================
+   COMBO BOX
+   ========================================================= */
+
+.combo-box {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: #D9C8B5;
+    -fx-border-width: 1.2;
+
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
+    -fx-padding: 3 8;
+
+    -fx-font-size: 14px;
+
+    -fx-text-fill: #4A3028;
+}
+
+
+/* Combo Box focado */
+
+.combo-box:focused {
+
+    -fx-border-color: #8B3A2E;
+    -fx-border-width: 2;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(139, 58, 46, 0.20),
+            10,
+            0.20,
+            0,
+            0
+    );
+}
+
+
+/* Botão da seta */
+
+.combo-box .arrow-button {
+
+    -fx-background-color: transparent;
+
+    -fx-background-radius: 10;
+}
+
+
+/* Seta */
+
+.combo-box .arrow {
+
+    -fx-background-color: #6D4034;
+}
+
+
+/* Lista do ComboBox */
+
+.combo-box-popup .list-view {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: #D9C8B5;
+    -fx-border-radius: 10;
+
+    -fx-background-radius: 10;
+}
+
+
+/* =========================================================
+   CAMPO INVÁLIDO
+   ========================================================= */
+
+.campo-invalido {
+
+    -fx-border-color: #B3261E;
+    -fx-border-width: 2;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(179, 38, 30, 0.18),
+            8,
             0.2,
             0,
             0
     );
 }
 
-/* Campo inválido */
-.campo-invalido {
-    -fx-border-color: #C62828;
-    -fx-border-width: 2;
-}
 
-/* Botões */
+/* =========================================================
+   BOTÕES — BASE
+   ========================================================= */
+
 .button {
-    -fx-text-fill: white;
+
+    -fx-font-family: "Segoe UI";
+
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-font-size: 14px;
-    -fx-padding: 10 18;
+
+    -fx-text-fill: white;
+
+    -fx-padding: 11 20;
+
     -fx-background-radius: 12;
+    -fx-border-radius: 12;
+
     -fx-cursor: hand;
+
     -fx-effect: dropshadow(
             gaussian,
-            rgba(0,0,0,0.15),
-            6,
-            0.2,
+            rgba(62, 39, 35, 0.16),
+            8,
+            0.18,
             0,
-            2
+            3
     );
 }
 
-/* Novo Pedido */
+
+/* =========================================================
+   NOVO PEDIDO
+   Vermelho café
+   ========================================================= */
+
 #btnNovo {
-    -fx-background-color: #2E7D32;
+
+    -fx-background-color: #A63D32;
 }
 
-/* Alterar */
+#btnNovo:hover {
+
+    -fx-background-color: #8F3027;
+
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+
+/* =========================================================
+   ALTERAR
+   Marrom café
+   ========================================================= */
+
 #btnAlterar {
-    -fx-background-color: #FB8C00;
+
+    -fx-background-color: #6D4034;
 }
 
-/* Cancelar */
+#btnAlterar:hover {
+
+    -fx-background-color: #583229;
+
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+
+/* =========================================================
+   CANCELAR
+   ========================================================= */
+
 #btnCancelar {
-    -fx-background-color: #000000;
+
+    -fx-background-color: #8C6B5A;
     -fx-text-fill: white;
 }
 
-/* Excluir Tudo */
+#btnCancelar:hover {
+
+    -fx-background-color: #745546;
+
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+
+/* =========================================================
+   EXCLUIR
+   ========================================================= */
+
 #btnExcluir {
-    -fx-background-color: #C62828;
+
+    -fx-background-color: #B3261E;
 }
 
-/* Limpar */
+#btnExcluir:hover {
+
+    -fx-background-color: #921D17;
+
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+
+/* =========================================================
+   LIMPAR
+   ========================================================= */
+
 #btnLimpar {
-    -fx-background-color: #607D8B;
+
+    -fx-background-color: #C5A98D;
+    -fx-text-fill: #4A3028;
 }
 
-/* Hover dos botões */
-.button:hover {
-    -fx-opacity: 0.90;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+#btnLimpar:hover {
+
+    -fx-background-color: #B5987C;
+
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
 }
 
-/* Clique do botão */
+
+/* =========================================================
+   BOTÃO PRESSIONADO
+   ========================================================= */
+
 .button:pressed {
+
     -fx-scale-x: 0.97;
     -fx-scale-y: 0.97;
-    -fx-opacity: 0.80;
+
+    -fx-opacity: 0.90;
 }
 
-/* Tabela */
+
+/* =========================================================
+   BOTÃO DESABILITADO
+   ========================================================= */
+
+.button:disabled {
+
+    -fx-opacity: 0.45;
+
+    -fx-effect: none;
+}
+
+
+/* =========================================================
+   TABELA PRINCIPAL
+   ========================================================= */
+
 .table-view {
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
-    -fx-border-color: #D7CCC8;
-    -fx-border-width: 2;
-    -fx-background-color: white;
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: #D9C8B5;
+    -fx-border-width: 1;
+
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+
+    -fx-padding: 0;
+
+    -fx-table-cell-border-color: transparent;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(62, 39, 35, 0.10),
+            12,
+            0.15,
+            0,
+            3
+    );
 }
 
-/* Cabeçalho da tabela */
-.table-view .column-header,
+
+/* =========================================================
+   CABEÇALHO DA TABELA
+   ========================================================= */
+
 .table-view .column-header-background {
-    -fx-background-color: #4E342E;
+
+    -fx-background-color: #5A3025;
+
+    -fx-background-radius: 13 13 0 0;
+
+    -fx-padding: 0;
 }
+
+
+/* Cabeçalho individual */
+
+.table-view .column-header {
+
+    -fx-background-color: transparent;
+
+    -fx-border-color: transparent transparent #754638 transparent;
+
+    -fx-border-width: 0 0 1 0;
+
+    -fx-size: 45px;
+}
+
+
+/* Texto do cabeçalho */
 
 .table-view .column-header .label {
-    -fx-text-fill: white;
+
+    -fx-text-fill: #FFF8EF;
+
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-font-size: 14px;
+
+    -fx-alignment: CENTER;
 }
 
-/* Linhas */
+
+/* =========================================================
+   LINHAS DA TABELA
+   ========================================================= */
+
 .table-row-cell {
-    -fx-background-color: white;
-    -fx-border-color: transparent transparent #EEEEEE transparent;
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: transparent transparent #EDE3D7 transparent;
+
+    -fx-border-width: 0 0 1 0;
+
+    -fx-cell-size: 44px;
 }
+
+
+/* Linhas alternadas */
 
 .table-row-cell:odd {
-    -fx-background-color: #FFF8E1;
+
+    -fx-background-color: #F9F1E7;
 }
+
+
+/* Hover */
 
 .table-row-cell:hover {
-    -fx-background-color: #F5E6D3;
+
+    -fx-background-color: #F1DFCE;
 }
+
+
+/* Selecionado */
 
 .table-row-cell:selected {
-    -fx-background-color: #A1887F;
+
+    -fx-background-color: #A63D32;
+
+    -fx-text-background-color: white;
 }
 
+
+/* Texto selecionado */
+
 .table-row-cell:selected .text {
+
     -fx-fill: white;
 }
 
-/* Células */
+
+/* =========================================================
+   CÉLULAS
+   ========================================================= */
+
 .table-cell {
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10;
+
     -fx-font-size: 13px;
+
+    -fx-text-fill: #4A3028;
+
+    -fx-alignment: CENTER_LEFT;
+
+    -fx-padding: 10 12;
+
+    -fx-border-color: transparent;
 }
+
+
+/* Células selecionadas */
+
+.table-row-cell:selected .table-cell {
+
+    -fx-text-fill: white;
+}
+
+
+/* =========================================================
+   SCROLLBAR DA TABELA
+   ========================================================= */
+
+.table-view .scroll-bar:vertical {
+
+    -fx-background-color: transparent;
+
+    -fx-padding: 3;
+}
+
+
+/* Barra */
+
+.table-view .scroll-bar:vertical .thumb {
+
+    -fx-background-color: #B8957A;
+
+    -fx-background-radius: 10;
+}
+
+
+/* Hover barra */
+
+.table-view .scroll-bar:vertical .thumb:hover {
+
+    -fx-background-color: #8B6753;
+}
+
+
+/* =========================================================
+   CANTO VAZIO DA TABELA
+   ========================================================= */
+
+.table-view .filler {
+
+    -fx-background-color: #5A3025;
+}
+
+
+/* =========================================================
+   FOCUS DA TABELA
+   ========================================================= */
+
+.table-view:focused {
+
+    -fx-border-color: #A63D32;
+
+    -fx-border-width: 1.5;
+}
+
+
+/* =========================================================
+   CORES DE APOIO
+   =========================================================
+
+   Vermelho principal: #A63D32
+   Vermelho escuro:    #8F3027
+
+   Marrom café:        #5A3025
+   Marrom médio:       #6D4034
+
+   Bege:               #F3EBDD
+   Creme:              #FFFDF9
+
+   Bege escuro:        #D9C8B5
+   Bege botão:         #C5A98D
+
+   Texto:              #4A3028
+
+   ========================================================= */

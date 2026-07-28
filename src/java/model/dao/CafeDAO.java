@@ -1,6 +1,7 @@
-package model;
+package model.dao;
 
 import com.projeto_java.Conexao;
+import model.dto.CafeDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,15 +10,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.projeto_java.util.AlertUtil.showError;
 
 public class CafeDAO {
+
+    private static final Logger logger =
+            Logger.getLogger(CafeDAO.class.getName());
 
     // Lista todos os pedidos cadastrados
     public List<CafeDTO> selecionarCafe() {
 
         List<CafeDTO> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM tabela_cafe ORDER BY id";
+        String sql = """
+                SELECT *
+                FROM tabela_cafe
+                ORDER BY id
+                """;
 
         try (
                 Connection conexao = Conexao.conectar();
@@ -29,9 +41,7 @@ public class CafeDAO {
 
                 CafeDTO cafe = new CafeDTO();
 
-                cafe.setId(
-                        resultado.getInt("id")
-                );
+                cafe.setId(resultado.getInt("id"));
 
                 cafe.setNomeProduto(
                         resultado.getString("nome_produto")
@@ -53,7 +63,16 @@ public class CafeDAO {
             }
 
         } catch (SQLException e) {
-            return lista;
+
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao selecionar os pedidos.",
+                    e
+            );
+
+            showError(
+                    "Erro ao carregar os pedidos."
+            );
         }
 
         return lista;
@@ -70,7 +89,8 @@ public class CafeDAO {
 
         try (
                 Connection conexao = Conexao.conectar();
-                PreparedStatement comando = conexao.prepareStatement(sql)
+                PreparedStatement comando =
+                        conexao.prepareStatement(sql)
         ) {
 
             comando.setString(
@@ -96,6 +116,16 @@ public class CafeDAO {
             comando.executeUpdate();
 
         } catch (SQLException e) {
+
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao cadastrar o pedido.",
+                    e
+            );
+
+            showError(
+                    "Erro ao cadastrar o pedido."
+            );
         }
     }
 
@@ -113,7 +143,8 @@ public class CafeDAO {
 
         try (
                 Connection conexao = Conexao.conectar();
-                PreparedStatement comando = conexao.prepareStatement(sql)
+                PreparedStatement comando =
+                        conexao.prepareStatement(sql)
         ) {
 
             comando.setString(
@@ -144,27 +175,46 @@ public class CafeDAO {
             comando.executeUpdate();
 
         } catch (SQLException e) {
+
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao alterar o pedido.",
+                    e
+            );
+
+            showError(
+                    "Erro ao alterar o pedido."
+            );
         }
     }
 
     // Exclui um pedido pelo ID
     public void cancelarPedido(int id) {
 
-        String sql = "DELETE FROM tabela_cafe WHERE id = ?";
+        String sql =
+                "DELETE FROM tabela_cafe WHERE id = ?";
 
         try (
                 Connection conexao = Conexao.conectar();
-                PreparedStatement comando = conexao.prepareStatement(sql)
+                PreparedStatement comando =
+                        conexao.prepareStatement(sql)
         ) {
 
-            comando.setInt(
-                    1,
-                    id
-            );
+            comando.setInt(1, id);
 
             comando.executeUpdate();
 
         } catch (SQLException e) {
+
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao cancelar o pedido.",
+                    e
+            );
+
+            showError(
+                    "Erro ao cancelar o pedido."
+            );
         }
     }
 
@@ -176,12 +226,23 @@ public class CafeDAO {
 
         try (
                 Connection conexao = Conexao.conectar();
-                Statement comando = conexao.createStatement()
+                Statement comando =
+                        conexao.createStatement()
         ) {
 
             comando.executeUpdate(sql);
 
         } catch (SQLException e) {
+
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao excluir todos os pedidos.",
+                    e
+            );
+
+            showError(
+                    "Erro ao excluir todos os pedidos."
+            );
         }
     }
 }
