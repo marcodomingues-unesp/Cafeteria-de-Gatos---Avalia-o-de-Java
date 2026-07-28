@@ -1,6 +1,7 @@
-package model;
+package model.dao;
 
 import com.projeto_java.Conexao;
+import model.dto.CafeDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

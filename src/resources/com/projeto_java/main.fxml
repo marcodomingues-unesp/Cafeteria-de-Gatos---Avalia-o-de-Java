@@ -9,7 +9,7 @@
             stylesheets="@style.css"
             xmlns="http://javafx.com/javafx/26"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.projeto_java.MainController">
+            fx:controller="com.projeto_java.controller.MainController">
 
     <children>
 
