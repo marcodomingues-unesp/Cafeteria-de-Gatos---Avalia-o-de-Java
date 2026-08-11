@@ -1,17 +1,61 @@
-    /* =========================================================
-       MARAGATO CAFÉ
-       Tema moderno — Café / Vermelho / Bege / Marrom
-       Inspirado em cafeterias premium
-       ========================================================= */
+/* =========================================================
+   MARAGATO CAFÉ
+   =========================================================
+   Tema:
+   ☕ Café / Marrom
+   🟥 Vermelho vinho
+   🥐 Bege / Creme
+
+   Estilo:
+   - Cafeteria premium
+   - Interface moderna
+   - Visual inspirado em aplicativos de cafeteria
+   - Marrom como cor predominante
+   - Vermelho para ações importantes
+   ========================================================= */
 
 
-    /* =========================================================
-       ROOT — FUNDO PRINCIPAL
-       ========================================================= */
+/* =========================================================
+   PALETA PRINCIPAL
+   =========================================================
+
+   Marrom principal:       #4A2921
+   Marrom café:            #704334
+   Marrom médio:           #795C4F
+   Marrom claro:           #947465
+
+   Vermelho principal:     #A33B32
+   Vermelho escuro:        #8E3028
+   Vermelho profundo:      #76251F
+
+   Bege fundo:             #F4EBDD
+   Creme:                  #FFFDF9
+   Bege claro:             #FAF3EA
+   Bege médio:             #F3E7DA
+   Bege escuro:            #DCCBBB
+
+   ========================================================= */
+
+
+/* =========================================================
+   ROOT
+   ========================================================= */
 
 .root {
+
     -fx-font-family: "Segoe UI";
-    -fx-background-color: #F3EBDD;
+
+    -fx-background-color: #F4EBDD;
+}
+
+
+/* =========================================================
+   PÁGINA PRINCIPAL
+   ========================================================= */
+
+.pagina {
+
+    -fx-background-color: #F4EBDD;
 }
 
 
@@ -20,51 +64,144 @@
    ========================================================= */
 
 .card {
-    -fx-background-color: #FFFDF8;
 
-    -fx-background-radius: 22;
-    -fx-border-radius: 22;
+    -fx-background-color: #FFFCF7;
 
-    -fx-border-color: #E5D7C5;
+    -fx-background-radius: 24;
+
+    -fx-border-radius: 24;
+
+    -fx-border-color: #E5D5C2;
+
     -fx-border-width: 1;
+
+    -fx-padding: 28;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(62, 39, 35, 0.18),
-            25,
-            0.20,
+            rgba(74, 48, 40, 0.16),
+            24,
+            0.18,
             0,
             8
     );
-
-    -fx-padding: 25;
 }
 
 
 /* =========================================================
-   TÍTULO
+   =========================================================
+   HEADER — MARAGATO CAFÉ
+   =========================================================
+   ========================================================= */
+
+.header {
+
+    -fx-background-color: #4A2921;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(45, 25, 20, 0.20),
+            14,
+            0.15,
+            0,
+            4
+    );
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.logo {
+
+    -fx-font-family: "Segoe UI";
+
+    -fx-font-size: 24px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #FFF9F1;
+}
+
+
+.logo-subtitulo {
+
+    -fx-font-size: 12px;
+
+    -fx-text-fill: #DCCBBB;
+}
+
+
+/* =========================================================
+   STATUS DO ATENDIMENTO
+   ========================================================= */
+
+.status-label {
+
+    -fx-font-size: 10px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #CDB8A6;
+}
+
+
+.status-online {
+
+    -fx-font-size: 12px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #E8D7C6;
+}
+
+
+/* =========================================================
+   =========================================================
+   TÍTULOS
+   =========================================================
    ========================================================= */
 
 .titulo {
+
     -fx-font-family: "Segoe UI";
+
     -fx-font-size: 30px;
+
     -fx-font-weight: bold;
 
-    -fx-text-fill: #5A3025;
+    -fx-text-fill: #4A2921;
 
-    -fx-alignment: center;
+    -fx-alignment: CENTER_LEFT;
 }
 
 
-/* =========================================================
-   SUBTÍTULOS
-   ========================================================= */
+.titulo-painel {
+
+    -fx-font-size: 22px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #4A2921;
+}
+
 
 .subtitulo {
-    -fx-font-size: 15px;
+
+    -fx-font-size: 14px;
+
     -fx-font-weight: normal;
 
-    -fx-text-fill: #8A6A58;
+    -fx-text-fill: #927567;
+}
+
+
+.subtitulo-painel {
+
+    -fx-font-size: 12px;
+
+    -fx-text-fill: #927567;
 }
 
 
@@ -73,10 +210,42 @@
    ========================================================= */
 
 .label {
+
+    -fx-font-family: "Segoe UI";
+
     -fx-font-size: 13px;
+
     -fx-font-weight: bold;
 
-    -fx-text-fill: #5A3025;
+    -fx-text-fill: #59372D;
+}
+
+
+/* =========================================================
+   LABEL DE DESTAQUE
+   ========================================================= */
+
+.label-destaque {
+
+    -fx-font-size: 16px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #4A2921;
+}
+
+
+/* =========================================================
+   LABEL DE SEÇÃO
+   ========================================================= */
+
+.label-secao {
+
+    -fx-font-size: 10px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #8A6757;
 }
 
 
@@ -85,48 +254,178 @@
    ========================================================= */
 
 .mensagem {
+
     -fx-font-size: 13px;
+
     -fx-font-weight: bold;
 
-    -fx-text-fill: #B3261E;
+    -fx-text-fill: #A6322A;
 
-    -fx-padding: 6 0 6 0;
+    -fx-padding: 7 0 7 0;
 }
 
 
 /* =========================================================
-   ATALHOS / TEXTOS AUXILIARES
+   TEXTOS AUXILIARES
    ========================================================= */
 
 .atalhos {
+
     -fx-font-size: 12px;
+
     -fx-font-style: italic;
+
     -fx-font-weight: normal;
 
-    -fx-text-fill: #9A8170;
+    -fx-text-fill: #9B8375;
 }
 
 
 /* =========================================================
+   =========================================================
+   PAINEL DO PEDIDO
+   =========================================================
+   ========================================================= */
+
+.painel-pedido {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-background-radius: 20;
+
+    -fx-border-radius: 20;
+
+    -fx-border-color: #E2D1BE;
+
+    -fx-border-width: 1;
+
+    -fx-padding: 25;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(74, 48, 40, 0.14),
+            20,
+            0.15,
+            0,
+            6
+    );
+}
+
+
+/* =========================================================
+   PAINEL DOS PEDIDOS
+   ========================================================= */
+
+.painel-pedidos {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-background-radius: 20;
+
+    -fx-border-radius: 20;
+
+    -fx-border-color: #E2D1BE;
+
+    -fx-border-width: 1;
+
+    -fx-padding: 25;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(74, 48, 40, 0.14),
+            20,
+            0.15,
+            0,
+            6
+    );
+}
+
+
+/* =========================================================
+   PAINEL GENÉRICO
+   ========================================================= */
+
+.painel {
+
+    -fx-background-color: #FFF9F2;
+
+    -fx-background-radius: 18;
+
+    -fx-border-color: #E5D5C2;
+
+    -fx-border-radius: 18;
+
+    -fx-border-width: 1;
+
+    -fx-padding: 20;
+}
+
+
+/* =========================================================
+   PAINEL MARROM
+   ========================================================= */
+
+.painel-marrom {
+
+    -fx-background-color: #4A2921;
+
+    -fx-background-radius: 18;
+
+    -fx-padding: 20;
+}
+
+
+.painel-marrom .label {
+
+    -fx-text-fill: #FFF9F1;
+}
+
+
+/* =========================================================
+   PAINEL VERMELHO
+   ========================================================= */
+
+.painel-vermelho {
+
+    -fx-background-color: #A33B32;
+
+    -fx-background-radius: 18;
+
+    -fx-padding: 20;
+}
+
+
+.painel-vermelho .label {
+
+    -fx-text-fill: white;
+}
+
+
+/* =========================================================
+   =========================================================
    CAMPOS DE TEXTO
+   =========================================================
    ========================================================= */
 
 .text-field {
 
     -fx-background-color: #FFFDF9;
 
-    -fx-border-color: #D9C8B5;
+    -fx-border-color: #DCCBBB;
+
     -fx-border-width: 1.2;
 
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
+    -fx-background-radius: 13;
+
+    -fx-border-radius: 13;
 
     -fx-padding: 11 14 11 14;
 
     -fx-font-size: 14px;
+
     -fx-text-fill: #4A3028;
 
-    -fx-prompt-text-fill: #B39A87;
+    -fx-prompt-text-fill: #B7A092;
 }
 
 
@@ -136,90 +435,20 @@
 
 .text-field:focused {
 
-    -fx-background-color: white;
+    -fx-background-color: #FFFFFF;
 
-    -fx-border-color: #8B3A2E;
+    -fx-border-color: #704334;
+
     -fx-border-width: 2;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(139, 58, 46, 0.20),
+            rgba(112, 67, 52, 0.20),
             10,
-            0.20,
+            0.15,
             0,
-            0
+            2
     );
-}
-
-
-/* =========================================================
-   COMBO BOX
-   ========================================================= */
-
-.combo-box {
-
-    -fx-background-color: #FFFDF9;
-
-    -fx-border-color: #D9C8B5;
-    -fx-border-width: 1.2;
-
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
-
-    -fx-padding: 3 8;
-
-    -fx-font-size: 14px;
-
-    -fx-text-fill: #4A3028;
-}
-
-
-/* Combo Box focado */
-
-.combo-box:focused {
-
-    -fx-border-color: #8B3A2E;
-    -fx-border-width: 2;
-
-    -fx-effect: dropshadow(
-            gaussian,
-            rgba(139, 58, 46, 0.20),
-            10,
-            0.20,
-            0,
-            0
-    );
-}
-
-
-/* Botão da seta */
-
-.combo-box .arrow-button {
-
-    -fx-background-color: transparent;
-
-    -fx-background-radius: 10;
-}
-
-
-/* Seta */
-
-.combo-box .arrow {
-
-    -fx-background-color: #6D4034;
-}
-
-
-/* Lista do ComboBox */
-
-.combo-box-popup .list-view {
-
-    -fx-background-color: #FFFDF9;
-
-    -fx-border-color: #D9C8B5;
-    -fx-border-radius: 10;
-
-    -fx-background-radius: 10;
 }
 
 
@@ -229,22 +458,153 @@
 
 .campo-invalido {
 
-    -fx-border-color: #B3261E;
+    -fx-border-color: #A6322A;
+
     -fx-border-width: 2;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(179, 38, 30, 0.18),
+            rgba(166, 50, 42, 0.18),
             8,
-            0.2,
+            0.15,
             0,
-            0
+            1
     );
 }
 
 
 /* =========================================================
+   =========================================================
+   COMBO BOX
+   =========================================================
+   ========================================================= */
+
+.combo-box {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: #DCCBBB;
+
+    -fx-border-width: 1.2;
+
+    -fx-background-radius: 13;
+
+    -fx-border-radius: 13;
+
+    -fx-padding: 3 8;
+
+    -fx-font-size: 14px;
+
+    -fx-text-fill: #4A3028;
+}
+
+
+/* =========================================================
+   COMBO BOX FOCADO
+   ========================================================= */
+
+.combo-box:focused {
+
+    -fx-border-color: #704334;
+
+    -fx-border-width: 2;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(112, 67, 52, 0.20),
+            10,
+            0.15,
+            0,
+            2
+    );
+}
+
+
+/* =========================================================
+   BOTÃO DA SETA
+   ========================================================= */
+
+.combo-box .arrow-button {
+
+    -fx-background-color: transparent;
+
+    -fx-background-radius: 10;
+}
+
+
+/* =========================================================
+   SETA DO COMBO BOX
+   ========================================================= */
+
+.combo-box .arrow {
+
+    -fx-background-color: #704334;
+}
+
+
+/* =========================================================
+   LISTA DO COMBO BOX
+   ========================================================= */
+
+.combo-box-popup .list-view {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: #DCCBBB;
+
+    -fx-border-width: 1;
+
+    -fx-background-radius: 12;
+
+    -fx-border-radius: 12;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(74, 48, 40, 0.18),
+            15,
+            0.15,
+            0,
+            4
+    );
+}
+
+
+/* =========================================================
+   ITENS DO COMBO BOX
+   ========================================================= */
+
+.combo-box-popup .list-cell {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-text-fill: #4A3028;
+
+    -fx-padding: 10 14;
+
+    -fx-font-size: 13px;
+}
+
+
+.combo-box-popup .list-cell:hover {
+
+    -fx-background-color: #F1E1D0;
+
+    -fx-text-fill: #4A2921;
+}
+
+
+.combo-box-popup .list-cell:selected {
+
+    -fx-background-color: #704334;
+
+    -fx-text-fill: white;
+}
+
+
+/* =========================================================
+   =========================================================
    BOTÕES — BASE
+   =========================================================
    ========================================================= */
 
 .button {
@@ -252,22 +612,24 @@
     -fx-font-family: "Segoe UI";
 
     -fx-font-size: 13px;
+
     -fx-font-weight: bold;
 
     -fx-text-fill: white;
 
-    -fx-padding: 11 20;
+    -fx-padding: 11 21;
 
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
+    -fx-background-radius: 13;
+
+    -fx-border-radius: 13;
 
     -fx-cursor: hand;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(62, 39, 35, 0.16),
-            8,
-            0.18,
+            rgba(74, 48, 40, 0.16),
+            9,
+            0.15,
             0,
             3
     );
@@ -275,96 +637,184 @@
 
 
 /* =========================================================
-   NOVO PEDIDO
-   Vermelho café
+   BOTÃO NOVO PEDIDO
    ========================================================= */
 
 #btnNovo {
 
-    -fx-background-color: #A63D32;
+    -fx-background-color: #A33B32;
 }
+
 
 #btnNovo:hover {
 
-    -fx-background-color: #8F3027;
+    -fx-background-color: #8E3028;
 
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(142, 48, 40, 0.30),
+            12,
+            0.18,
+            0,
+            4
+    );
+}
+
+
+#btnNovo:pressed {
+
+    -fx-background-color: #76251F;
+
+    -fx-scale-x: 0.98;
+
+    -fx-scale-y: 0.98;
 }
 
 
 /* =========================================================
-   ALTERAR
-   Marrom café
+   BOTÃO ALTERAR
    ========================================================= */
 
 #btnAlterar {
 
-    -fx-background-color: #6D4034;
+    -fx-background-color: #704334;
 }
+
 
 #btnAlterar:hover {
 
-    -fx-background-color: #583229;
+    -fx-background-color: #5E382D;
 
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(94, 56, 45, 0.28),
+            12,
+            0.18,
+            0,
+            4
+    );
+}
+
+
+#btnAlterar:pressed {
+
+    -fx-background-color: #4A2921;
+
+    -fx-scale-x: 0.98;
+
+    -fx-scale-y: 0.98;
 }
 
 
 /* =========================================================
-   CANCELAR
+   BOTÃO CANCELAR
    ========================================================= */
 
 #btnCancelar {
 
-    -fx-background-color: #8C6B5A;
+    -fx-background-color: #947465;
+
     -fx-text-fill: white;
 }
 
+
 #btnCancelar:hover {
 
-    -fx-background-color: #745546;
+    -fx-background-color: #795C4F;
 
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
+    -fx-scale-x: 1.02;
+
+    -fx-scale-y: 1.02;
 }
 
 
 /* =========================================================
-   EXCLUIR
+   BOTÃO EXCLUIR
    ========================================================= */
 
 #btnExcluir {
 
-    -fx-background-color: #B3261E;
+    -fx-background-color: #A6322A;
 }
+
 
 #btnExcluir:hover {
 
-    -fx-background-color: #921D17;
+    -fx-background-color: #88251F;
 
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(166, 50, 42, 0.30),
+            12,
+            0.18,
+            0,
+            4
+    );
 }
 
 
 /* =========================================================
-   LIMPAR
+   BOTÃO LIMPAR
    ========================================================= */
 
 #btnLimpar {
 
-    -fx-background-color: #C5A98D;
-    -fx-text-fill: #4A3028;
+    -fx-background-color: #D5B99B;
+
+    -fx-text-fill: #4A2921;
 }
+
 
 #btnLimpar:hover {
 
-    -fx-background-color: #B5987C;
+    -fx-background-color: #C5A78A;
 
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
+    -fx-scale-x: 1.02;
+
+    -fx-scale-y: 1.02;
+}
+
+
+/* =========================================================
+   BOTÃO PRINCIPAL
+   ========================================================= */
+
+.botao-principal {
+
+    -fx-background-color: #A33B32;
+
+    -fx-font-size: 14px;
+
+    -fx-font-weight: bold;
+
+    -fx-padding: 14 20;
+
+    -fx-background-radius: 13;
+}
+
+
+.botao-principal:hover {
+
+    -fx-background-color: #8E3028;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(142, 48, 40, 0.30),
+            14,
+            0.18,
+            0,
+            4
+    );
+}
+
+
+.botao-principal:pressed {
+
+    -fx-background-color: #76251F;
+
+    -fx-scale-x: 0.98;
+
+    -fx-scale-y: 0.98;
 }
 
 
@@ -374,10 +824,7 @@
 
 .button:pressed {
 
-    -fx-scale-x: 0.97;
-    -fx-scale-y: 0.97;
-
-    -fx-opacity: 0.90;
+    -fx-opacity: 0.92;
 }
 
 
@@ -387,25 +834,29 @@
 
 .button:disabled {
 
-    -fx-opacity: 0.45;
+    -fx-opacity: 0.42;
 
     -fx-effect: none;
 }
 
 
 /* =========================================================
+   =========================================================
    TABELA PRINCIPAL
+   =========================================================
    ========================================================= */
 
 .table-view {
 
     -fx-background-color: #FFFDF9;
 
-    -fx-border-color: #D9C8B5;
+    -fx-border-color: #DCCBBB;
+
     -fx-border-width: 1;
 
-    -fx-background-radius: 14;
-    -fx-border-radius: 14;
+    -fx-background-radius: 16;
+
+    -fx-border-radius: 16;
 
     -fx-padding: 0;
 
@@ -413,12 +864,24 @@
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(62, 39, 35, 0.10),
-            12,
+            rgba(74, 48, 40, 0.12),
+            14,
             0.15,
             0,
-            3
+            4
     );
+}
+
+
+/* =========================================================
+   TABELA DE PEDIDOS
+   ========================================================= */
+
+.tabela-pedidos {
+
+    -fx-background-radius: 15;
+
+    -fx-border-radius: 15;
 }
 
 
@@ -428,35 +891,40 @@
 
 .table-view .column-header-background {
 
-    -fx-background-color: #5A3025;
+    -fx-background-color: #4A2921;
 
-    -fx-background-radius: 13 13 0 0;
+    -fx-background-radius: 15 15 0 0;
 
     -fx-padding: 0;
 }
 
 
-/* Cabeçalho individual */
+/* =========================================================
+   COLUNA
+   ========================================================= */
 
 .table-view .column-header {
 
     -fx-background-color: transparent;
 
-    -fx-border-color: transparent transparent #754638 transparent;
+    -fx-border-color: transparent transparent #684236 transparent;
 
     -fx-border-width: 0 0 1 0;
 
-    -fx-size: 45px;
+    -fx-size: 48px;
 }
 
 
-/* Texto do cabeçalho */
+/* =========================================================
+   TEXTO DO CABEÇALHO
+   ========================================================= */
 
 .table-view .column-header .label {
 
-    -fx-text-fill: #FFF8EF;
+    -fx-text-fill: #FFF9F1;
 
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
+
     -fx-font-weight: bold;
 
     -fx-alignment: CENTER;
@@ -471,41 +939,51 @@
 
     -fx-background-color: #FFFDF9;
 
-    -fx-border-color: transparent transparent #EDE3D7 transparent;
+    -fx-border-color: transparent transparent #EEE3D7 transparent;
 
     -fx-border-width: 0 0 1 0;
 
-    -fx-cell-size: 44px;
+    -fx-cell-size: 46px;
 }
 
 
-/* Linhas alternadas */
+/* =========================================================
+   LINHAS ALTERNADAS
+   ========================================================= */
 
 .table-row-cell:odd {
 
-    -fx-background-color: #F9F1E7;
+    -fx-background-color: #FAF3EA;
 }
 
 
-/* Hover */
+/* =========================================================
+   HOVER DA LINHA
+   ========================================================= */
 
 .table-row-cell:hover {
 
-    -fx-background-color: #F1DFCE;
+    -fx-background-color: #F2E3D3;
 }
 
 
-/* Selecionado */
+/* =========================================================
+   LINHA SELECIONADA
+   ========================================================= */
 
 .table-row-cell:selected {
 
-    -fx-background-color: #A63D32;
+    -fx-background-color: #704334;
 
     -fx-text-background-color: white;
 }
 
 
-/* Texto selecionado */
+.table-row-cell:selected .table-cell {
+
+    -fx-text-fill: white;
+}
+
 
 .table-row-cell:selected .text {
 
@@ -521,51 +999,69 @@
 
     -fx-font-size: 13px;
 
-    -fx-text-fill: #4A3028;
+    -fx-text-fill: #50342B;
 
     -fx-alignment: CENTER_LEFT;
 
-    -fx-padding: 10 12;
+    -fx-padding: 10 14;
 
     -fx-border-color: transparent;
 }
 
 
-/* Células selecionadas */
-
-.table-row-cell:selected .table-cell {
-
-    -fx-text-fill: white;
-}
-
-
 /* =========================================================
-   SCROLLBAR DA TABELA
+   SCROLLBAR VERTICAL
    ========================================================= */
 
 .table-view .scroll-bar:vertical {
 
     -fx-background-color: transparent;
 
-    -fx-padding: 3;
+    -fx-padding: 4;
 }
 
 
-/* Barra */
+.table-view .scroll-bar:vertical .track {
+
+    -fx-background-color: transparent;
+}
+
 
 .table-view .scroll-bar:vertical .thumb {
 
-    -fx-background-color: #B8957A;
+    -fx-background-color: #B9967D;
 
     -fx-background-radius: 10;
 }
 
 
-/* Hover barra */
-
 .table-view .scroll-bar:vertical .thumb:hover {
 
-    -fx-background-color: #8B6753;
+    -fx-background-color: #806050;
+}
+
+
+/* =========================================================
+   SCROLLBAR HORIZONTAL
+   ========================================================= */
+
+.table-view .scroll-bar:horizontal {
+
+    -fx-background-color: transparent;
+}
+
+
+.table-view .scroll-bar:horizontal .track {
+
+    -fx-background-color: transparent;
+}
+
+
+.table-view .scroll-bar:horizontal .thumb {
+
+    -fx-background-color: #B9967D;
+
+    -fx-background-radius: 10;
 }
 
 
@@ -575,7 +1071,7 @@
 
 .table-view .filler {
 
-    -fx-background-color: #5A3025;
+    -fx-background-color: #4A2921;
 }
 
 
@@ -585,28 +1081,323 @@
 
 .table-view:focused {
 
-    -fx-border-color: #A63D32;
+    -fx-border-color: #704334;
 
     -fx-border-width: 1.5;
 }
 
 
 /* =========================================================
-   CORES DE APOIO
+   =========================================================
+   CONTADOR DE PEDIDOS
+   =========================================================
+   ========================================================= */
+
+.contador-pedidos {
+
+    -fx-background-color: #F3E7DA;
+
+    -fx-background-radius: 12;
+
+    -fx-padding: 8 14;
+}
+
+
+.contador-titulo {
+
+    -fx-font-size: 9px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #8A6757;
+}
+
+
+.contador-status {
+
+    -fx-font-size: 14px;
+
+    -fx-text-fill: #704334;
+}
+
+
+/* =========================================================
+   =========================================================
+   RODAPÉ DOS PEDIDOS
+   =========================================================
+   ========================================================= */
+
+.rodape-pedidos {
+
+    -fx-background-color: #F7EEE4;
+
+    -fx-background-radius: 14;
+
+    -fx-padding: 12 16;
+}
+
+
+.icone-cafe {
+
+    -fx-font-size: 22px;
+
+    -fx-text-fill: #704334;
+}
+
+
+.rodape-titulo {
+
+    -fx-font-size: 12px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #4A2921;
+}
+
+
+.rodape-subtitulo {
+
+    -fx-font-size: 11px;
+
+    -fx-text-fill: #95786A;
+}
+
+
+/* =========================================================
+   =========================================================
+   CARDS DE PRODUTOS
+   =========================================================
+   ========================================================= */
+
+.produto-card {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-background-radius: 18;
+
+    -fx-border-color: #E2D1BE;
+
+    -fx-border-radius: 18;
+
+    -fx-border-width: 1;
+
+    -fx-padding: 18;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(74, 48, 40, 0.12),
+            12,
+            0.15,
+            0,
+            4
+    );
+}
+
+
+.produto-card:hover {
+
+    -fx-background-color: #FAF1E6;
+
+    -fx-border-color: #B8957A;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(74, 48, 40, 0.20),
+            16,
+            0.18,
+            0,
+            5
+    );
+}
+
+
+/* =========================================================
+   NOME DO PRODUTO
+   ========================================================= */
+
+.nome-produto {
+
+    -fx-font-size: 15px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #4A2921;
+}
+
+
+/* =========================================================
+   PREÇO
+   ========================================================= */
+
+.preco {
+
+    -fx-font-size: 18px;
+
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #704334;
+}
+
+
+/* =========================================================
+   DETALHES DO PRODUTO
+   ========================================================= */
+
+.detalhes-produto {
+
+    -fx-font-size: 12px;
+
+    -fx-text-fill: #95786A;
+}
+
+
+/* =========================================================
+   =========================================================
+   SEPARADORES
+   =========================================================
+   ========================================================= */
+
+.separator .line {
+
+    -fx-border-color: #E1D1BF;
+
+    -fx-border-width: 1 0 0 0;
+}
+
+
+/* =========================================================
+   =========================================================
+   TOOLTIP
+   =========================================================
+   ========================================================= */
+
+.tooltip {
+
+    -fx-background-color: #4A2921;
+
+    -fx-text-fill: #FFF9F1;
+
+    -fx-background-radius: 8;
+
+    -fx-padding: 8 12;
+
+    -fx-font-size: 12px;
+}
+
+
+/* =========================================================
+   =========================================================
+   LISTAS / POPUPS
+   =========================================================
+   ========================================================= */
+
+.list-view {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-border-color: #DCCBBB;
+
+    -fx-background-radius: 12;
+
+    -fx-border-radius: 12;
+}
+
+
+.list-cell {
+
+    -fx-background-color: #FFFDF9;
+
+    -fx-text-fill: #4A3028;
+
+    -fx-padding: 10 14;
+}
+
+
+.list-cell:hover {
+
+    -fx-background-color: #F1E1D0;
+}
+
+
+.list-cell:selected {
+
+    -fx-background-color: #704334;
+
+    -fx-text-fill: white;
+}
+
+
+/* =========================================================
+   =========================================================
+   SCROLLBAR GERAL
+   =========================================================
+   ========================================================= */
+
+.scroll-bar {
+
+    -fx-background-color: transparent;
+}
+
+
+.scroll-bar .track {
+
+    -fx-background-color: transparent;
+}
+
+
+.scroll-bar .thumb {
+
+    -fx-background-color: #B9967D;
+
+    -fx-background-radius: 10;
+}
+
+
+.scroll-bar .thumb:hover {
+
+    -fx-background-color: #806050;
+}
+
+
+/* =========================================================
+   =========================================================
+   CORES DE IDENTIDADE
    =========================================================
 
-   Vermelho principal: #A63D32
-   Vermelho escuro:    #8F3027
+   ☕ MARROM CAFÉ
+   #4A2921
 
-   Marrom café:        #5A3025
-   Marrom médio:       #6D4034
+   ☕ MARROM PRINCIPAL
+   #704334
 
-   Bege:               #F3EBDD
-   Creme:              #FFFDF9
+   🤎 MARROM MÉDIO
+   #795C4F
 
-   Bege escuro:        #D9C8B5
-   Bege botão:         #C5A98D
+   🤎 MARROM CLARO
+   #947465
 
-   Texto:              #4A3028
+   🟥 VERMELHO
+   #A33B32
+
+   🟥 VERMELHO ESCURO
+   #8E3028
+
+   🟥 VERMELHO PROFUNDO
+   #76251F
+
+   🥐 BEGE
+   #F4EBDD
+
+   🥐 CREME
+   #FFFDF9
+
+   🥐 BEGE CLARO
+   #FAF3EA
+
+   🥐 BEGE MÉDIO
+   #F3E7DA
+
+   🥐 BEGE ESCURO
+   #DCCBBB
 
    ========================================================= */
