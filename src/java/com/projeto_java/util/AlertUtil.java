@@ -7,42 +7,74 @@ import java.util.Optional;
 
 public class AlertUtil {
 
+    // Impede a criação de objetos dessa classe
+    private AlertUtil() {
+    }
+
+    // Exibe uma mensagem de informação
     public static void showInformation(String mensagem) {
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Informação");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+        mostrar(
+                Alert.AlertType.INFORMATION,
+                "Informação",
+                mensagem
+        );
     }
 
+    // Exibe uma mensagem de aviso
     public static void showWarning(String mensagem) {
-
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Aviso");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+        mostrar(
+                Alert.AlertType.WARNING,
+                "Aviso",
+                mensagem
+        );
     }
 
+    // Exibe uma mensagem de erro
     public static void showError(String mensagem) {
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
+        mostrar(
+                Alert.AlertType.ERROR,
+                "Erro",
+                mensagem
+        );
     }
 
+    // Exibe uma confirmação e retorna a escolha do usuário
     public static boolean showConfirmation(String mensagem) {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmação");
+        Alert alert = criar(
+                Alert.AlertType.CONFIRMATION,
+                "Confirmação",
+                mensagem
+        );
+
+        Optional<ButtonType> resultado =
+                alert.showAndWait();
+
+        return resultado.isPresent()
+                && resultado.get() == ButtonType.OK;
+    }
+
+    // Exibe o alerta na tela
+    private static void mostrar(
+            Alert.AlertType tipo,
+            String titulo,
+            String mensagem) {
+
+        criar(tipo, titulo, mensagem).showAndWait();
+    }
+
+    // Cria e configura o alerta
+    private static Alert criar(
+            Alert.AlertType tipo,
+            String titulo,
+            String mensagem) {
+
+        Alert alert = new Alert(tipo);
+
+        alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
 
-        Optional<ButtonType> resultado = alert.showAndWait();
-
-        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+        return alert;
     }
 }

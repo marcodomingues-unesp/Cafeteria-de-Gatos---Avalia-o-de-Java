@@ -2,31 +2,67 @@ package com.projeto_java.validator;
 
 import java.util.regex.Pattern;
 
-import static com.projeto_java.util.AlertUtil.showWarning;
-
 public class CafeValidator {
 
-    public static boolean validarCafe(String nomeProduto, String tamanhoProduto, String tipoTorra, double preco) {
+    private static final Pattern nomePattern =
+            Pattern.compile("^[a-zA-ZÀ-ÿ ]+$");
 
-        // Verifica se todos os campos foram preenchidos
-        if (nomeProduto.isEmpty() || tamanhoProduto.isEmpty() || tipoTorra.isEmpty() || preco <= 0) {
+    // Valida todos os dados
+    public static String validarCafe(
+            String nomeProduto,
+            String tamanhoProduto,
+            String tipoTorra,
+            double preco) {
 
-            showWarning("Preencha todos os campos antes de prosseguir.");
-            return false;
-        }
+        String erro = validarNome(nomeProduto);
+        if (erro != null) return erro;
 
-        // Valida o nome do produto
-        if (!validarNomeProduto(nomeProduto)) {
+        erro = validarTamanho(tamanhoProduto);
+        if (erro != null) return erro;
 
-            showWarning("Digite um nome de produto válido.");
-            return false;
-        }
+        erro = validarTorra(tipoTorra);
+        if (erro != null) return erro;
 
-        return true;
+        return validarPreco(preco);
     }
 
-    private static boolean validarNomeProduto(String nomeProduto) {
+    // Valida o nome
+    public static String validarNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            return "Informe o nome do produto.";
+        }
 
-        return Pattern.matches("^[a-zA-ZÀ-ÿ ]+$", nomeProduto);
+        if (!nomePattern.matcher(nome.trim()).matches()) {
+            return "Digite um nome de produto válido.";
+        }
+
+        return null;
+    }
+
+    // Valida o tamanho
+    public static String validarTamanho(String tamanho) {
+        if (tamanho == null || tamanho.trim().isEmpty()) {
+            return "Selecione o tamanho do café.";
+        }
+
+        return null;
+    }
+
+    // Valida a torra
+    public static String validarTorra(String torra) {
+        if (torra == null || torra.trim().isEmpty()) {
+            return "Selecione o tipo de torra.";
+        }
+
+        return null;
+    }
+
+    // Valida o preço
+    public static String validarPreco(double preco) {
+        if (preco <= 0) {
+            return "Informe um preço válido.";
+        }
+
+        return null;
     }
 }

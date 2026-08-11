@@ -1,19 +1,26 @@
 package model.dto;
 
-// DTO para transferir os dados dos produtos
-
 public class CafeDTO {
 
+    // Dados do café
     private int id;
     private String nomeProduto;
     private String tamanhoProduto;
     private String tipoTorra;
     private double preco;
 
+    // Construtor vazio
     public CafeDTO() {
     }
 
-    public CafeDTO(int id, String nomeProduto, String tamanhoProduto, String tipoTorra, double preco) {
+    // Construtor com os dados do café
+    public CafeDTO(
+            int id,
+            String nomeProduto,
+            String tamanhoProduto,
+            String tipoTorra,
+            double preco) {
+
         this.id = id;
         this.nomeProduto = nomeProduto;
         this.tamanhoProduto = tamanhoProduto;
@@ -21,6 +28,7 @@ public class CafeDTO {
         this.preco = preco;
     }
 
+    // Getters e Setters
     public int getId() {
         return id;
     }

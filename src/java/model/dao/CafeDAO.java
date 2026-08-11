@@ -3,58 +3,52 @@ package model.dao;
 import com.projeto_java.Conexao;
 import model.dto.CafeDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.projeto_java.util.AlertUtil.showError;
 
 public class CafeDAO {
 
     private static final Logger logger =
             Logger.getLogger(CafeDAO.class.getName());
 
-    // Lista todos os pedidos cadastrados
+    // Busca todos os pedidos cadastrados
     public List<CafeDTO> selecionarCafe() {
 
         List<CafeDTO> lista = new ArrayList<>();
 
         String sql = """
-                SELECT *
+                SELECT id, nome_produto, tamanho_produto,
+                       tipo_torra, preco
                 FROM tabela_cafe
                 ORDER BY id
                 """;
 
         try (
                 Connection conexao = Conexao.conectar();
-                PreparedStatement comando = conexao.prepareStatement(sql);
-                ResultSet resultado = comando.executeQuery()
+                PreparedStatement comando =
+                        conexao.prepareStatement(sql);
+                ResultSet resultado =
+                        comando.executeQuery()
         ) {
 
+            // Converte os dados do banco para objetos CafeDTO
             while (resultado.next()) {
 
                 CafeDTO cafe = new CafeDTO();
 
                 cafe.setId(resultado.getInt("id"));
-
                 cafe.setNomeProduto(
                         resultado.getString("nome_produto")
                 );
-
                 cafe.setTamanhoProduto(
                         resultado.getString("tamanho_produto")
                 );
-
                 cafe.setTipoTorra(
                         resultado.getString("tipo_torra")
                 );
-
                 cafe.setPreco(
                         resultado.getDouble("preco")
                 );
@@ -63,15 +57,9 @@ public class CafeDAO {
             }
 
         } catch (SQLException e) {
-
-            logger.log(
-                    Level.SEVERE,
+            tratarErro(
                     "Erro ao selecionar os pedidos.",
                     e
-            );
-
-            showError(
-                    "Erro ao carregar os pedidos."
             );
         }
 
@@ -93,43 +81,18 @@ public class CafeDAO {
                         conexao.prepareStatement(sql)
         ) {
 
-            comando.setString(
-                    1,
-                    cafe.getNomeProduto()
-            );
-
-            comando.setString(
-                    2,
-                    cafe.getTamanhoProduto()
-            );
-
-            comando.setString(
-                    3,
-                    cafe.getTipoTorra()
-            );
-
-            comando.setDouble(
-                    4,
-                    cafe.getPreco()
-            );
-
+            preencherDados(comando, cafe);
             comando.executeUpdate();
 
         } catch (SQLException e) {
-
-            logger.log(
-                    Level.SEVERE,
+            tratarErro(
                     "Erro ao cadastrar o pedido.",
                     e
-            );
-
-            showError(
-                    "Erro ao cadastrar o pedido."
             );
         }
     }
 
-    // Atualiza um pedido existente
+    // Altera um pedido existente
     public void alterarPedido(CafeDTO cafe) {
 
         String sql = """
@@ -147,48 +110,20 @@ public class CafeDAO {
                         conexao.prepareStatement(sql)
         ) {
 
-            comando.setString(
-                    1,
-                    cafe.getNomeProduto()
-            );
-
-            comando.setString(
-                    2,
-                    cafe.getTamanhoProduto()
-            );
-
-            comando.setString(
-                    3,
-                    cafe.getTipoTorra()
-            );
-
-            comando.setDouble(
-                    4,
-                    cafe.getPreco()
-            );
-
-            comando.setInt(
-                    5,
-                    cafe.getId()
-            );
+            preencherDados(comando, cafe);
+            comando.setInt(5, cafe.getId());
 
             comando.executeUpdate();
 
         } catch (SQLException e) {
-
-            logger.log(
-                    Level.SEVERE,
+            tratarErro(
                     "Erro ao alterar o pedido.",
                     e
-            );
-
-            showError(
-                    "Erro ao alterar o pedido."
             );
         }
     }
 
-    // Exclui um pedido pelo ID
+    // Cancela um pedido pelo ID
     public void cancelarPedido(int id) {
 
         String sql =
@@ -201,24 +136,17 @@ public class CafeDAO {
         ) {
 
             comando.setInt(1, id);
-
             comando.executeUpdate();
 
         } catch (SQLException e) {
-
-            logger.log(
-                    Level.SEVERE,
+            tratarErro(
                     "Erro ao cancelar o pedido.",
                     e
-            );
-
-            showError(
-                    "Erro ao cancelar o pedido."
             );
         }
     }
 
-    // Exclui todos os pedidos
+    // Exclui todos os pedidos da tabela
     public void excluirTodosPedidos() {
 
         String sql =
@@ -233,16 +161,53 @@ public class CafeDAO {
             comando.executeUpdate(sql);
 
         } catch (SQLException e) {
-
-            logger.log(
-                    Level.SEVERE,
+            tratarErro(
                     "Erro ao excluir todos os pedidos.",
                     e
             );
-
-            showError(
-                    "Erro ao excluir todos os pedidos."
-            );
         }
+    }
+
+    // Preenche os dados usados no cadastro e alteração
+    private void preencherDados(
+            PreparedStatement comando,
+            CafeDTO cafe) throws SQLException {
+
+        comando.setString(
+                1,
+                cafe.getNomeProduto()
+        );
+
+        comando.setString(
+                2,
+                cafe.getTamanhoProduto()
+        );
+
+        comando.setString(
+                3,
+                cafe.getTipoTorra()
+        );
+
+        comando.setDouble(
+                4,
+                cafe.getPreco()
+        );
+    }
+
+    // Registra e informa erros do banco de dados
+    private void tratarErro(
+            String mensagem,
+            SQLException e) {
+
+        logger.log(
+                Level.SEVERE,
+                mensagem,
+                e
+        );
+
+        throw new RuntimeException(
+                mensagem,
+                e
+        );
     }
 }
