@@ -34,15 +34,12 @@ public class CafeService {
 
     private void validar(CafeDTO cafe) {
 
-        String erro = CafeValidator.validarCafe(
-                cafe.getNomeProduto(),
-                cafe.getTamanhoProduto(),
-                cafe.getTipoTorra(),
-                cafe.getPreco()
-        );
+        CafeValidator validator = new CafeValidator(cafe);
 
-        if (erro != null) {
-            throw new IllegalArgumentException(erro);
+        if (!validator.validar(cafe)) {
+            throw new IllegalArgumentException(
+                    validator.getMensagemErro()
+            );
         }
     }
 }
