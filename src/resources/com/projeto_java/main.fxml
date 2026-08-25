@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1100.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_java.controller.MainController">
+<AnchorPane prefHeight="720.0" prefWidth="1100.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_java.controller.MainController">
 
     <children>
 
@@ -204,7 +204,7 @@
 
                             <Label prefHeight="51.0" prefWidth="49.0" styleClass="titulo-painel" text="Pedidos">
                         <font>
-                           <Font size="16.0" />
+                           <Font size="20.0" />
                         </font></Label>
 
                         </VBox>
@@ -234,13 +234,13 @@
 
                         <columns>
 
-                            <TableColumn fx:id="colId" minWidth="15.0" prefWidth="116.0" text="Comanda" />
+                            <TableColumn fx:id="colId" minWidth="15.0" prefWidth="105.0" text="Comanda" />
 
-                            <TableColumn fx:id="colNome" minWidth="180" prefWidth="222.0" text="Produto" />
+                            <TableColumn fx:id="colNome" minWidth="159.0" prefWidth="173.0" text="Produto" />
 
-                            <TableColumn fx:id="colTamanho" minWidth="0.0" prefWidth="79.0" text="Tamanho" />
+                            <TableColumn fx:id="colTamanho" minWidth="0.0" prefWidth="167.0" text="Tamanho" />
 
-                            <TableColumn fx:id="colTorra" minWidth="0.0" prefWidth="203.0" text="Torra" />
+                            <TableColumn fx:id="colTorra" minWidth="0.0" prefWidth="175.0" text="Torra" />
 
                             <TableColumn fx:id="colPreco" minWidth="94.0" prefWidth="190.0" text="Preço" />
 
