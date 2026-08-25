@@ -13,21 +13,6 @@ public class CafeDTO {
     public CafeDTO() {
     }
 
-    // Construtor com os dados do café
-    public CafeDTO(
-            int id,
-            String nomeProduto,
-            String tamanhoProduto,
-            String tipoTorra,
-            double preco) {
-
-        this.id = id;
-        this.nomeProduto = nomeProduto;
-        this.tamanhoProduto = tamanhoProduto;
-        this.tipoTorra = tipoTorra;
-        this.preco = preco;
-    }
-
     // Getters e Setters
     public int getId() {
         return id;

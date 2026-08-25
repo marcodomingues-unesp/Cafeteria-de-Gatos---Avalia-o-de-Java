@@ -1,5 +1,8 @@
 package com.projeto_java.controller;
 
+import com.projeto_java.service.ICafeService;
+import com.projeto_java.util.AlertUtil;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -9,8 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import model.dto.CafeDTO;
-import com.projeto_java.service.CafeService;
-import com.projeto_java.util.AlertUtil;
 
 public class MainController {
 
@@ -49,19 +50,32 @@ public class MainController {
     @FXML
     private TableColumn<CafeDTO, Double> colPreco;
 
-    // Serviço responsável pelas operações dos cafés
-    private final CafeService cafeService = new CafeService();
+    // Serviço recebido pelo Main
+    private final ICafeService cafeService;
 
-    // Executado ao abrir a tela
+    // Recebe o serviço por injeção de dependência
+    public MainController(ICafeService cafeService) {
+
+        if (cafeService == null) {
+            throw new IllegalArgumentException(
+                    "O CafeService não pode ser null."
+            );
+        }
+
+        this.cafeService = cafeService;
+    }
+
+    // Inicializa a tela
     @FXML
     public void initialize() {
+
         configurarCombos();
         configurarTabela();
         configurarSelecao();
         carregarPedidos();
     }
 
-    // Preenche as opções dos ComboBox
+    // Define as opções dos ComboBox
     private void configurarCombos() {
 
         comboTamanho.getItems().addAll(
@@ -77,7 +91,7 @@ public class MainController {
         );
     }
 
-    // Liga as colunas aos atributos do CafeDTO
+    // Liga as colunas aos atributos do DTO
     private void configurarTabela() {
 
         colId.setCellValueFactory(
@@ -104,21 +118,18 @@ public class MainController {
     // Preenche o formulário ao selecionar um pedido
     private void configurarSelecao() {
 
-        tablePedidos.getSelectionModel()
+        tablePedidos
+                .getSelectionModel()
                 .selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
+                .addListener((_, _, newValue) -> {
 
-                    // Verifica se houve mudança de seleção
-                    if (oldValue != newValue
-                            && observable.getValue() != null
-                            && newValue != null) {
-
+                    if (newValue != null) {
                         preencherFormulario(newValue);
                     }
                 });
     }
 
-    // Coloca os dados selecionados no formulário
+    // Mostra os dados do pedido nos campos
     private void preencherFormulario(CafeDTO cafe) {
 
         txtNome.setText(
@@ -198,7 +209,7 @@ public class MainController {
             return;
         }
 
-        // Pede confirmação antes de cancelar
+        // Só continua se o usuário confirmar
         if (!AlertUtil.showConfirmation(
                 "Deseja realmente cancelar este pedido?"
         )) {
@@ -227,7 +238,7 @@ public class MainController {
     @FXML
     private void excluirTudo() {
 
-        // Confirma a exclusão antes de executar
+        // Só continua se o usuário confirmar
         if (!AlertUtil.showConfirmation(
                 "Deseja realmente excluir todos os pedidos?"
         )) {
@@ -256,11 +267,12 @@ public class MainController {
 
         limparCampos();
 
-        tablePedidos.getSelectionModel()
+        tablePedidos
+                .getSelectionModel()
                 .clearSelection();
     }
 
-    // Cria um novo objeto CafeDTO
+    // Cria um novo CafeDTO
     private CafeDTO criarCafe() {
 
         CafeDTO cafe = new CafeDTO();
@@ -270,7 +282,7 @@ public class MainController {
         return cafe;
     }
 
-    // Copia os dados do formulário para o objeto
+    // Transfere os dados do formulário para o DTO
     private void preencherCafe(CafeDTO cafe) {
 
         cafe.setNomeProduto(
@@ -290,7 +302,7 @@ public class MainController {
         );
     }
 
-    // Converte o preço informado para double
+    // Converte o preço para double
     private double obterPreco() {
 
         try {
@@ -327,14 +339,23 @@ public class MainController {
     }
 
     // Atualiza a tabela com os pedidos
-    private void carregarPedidos() {
+    public void carregarPedidos() {
 
-        tablePedidos.getItems().setAll(
-                cafeService.listarPedidos()
-        );
+        try {
+
+            tablePedidos.getItems().setAll(
+                    cafeService.listarPedidos()
+            );
+
+        } catch (RuntimeException e) {
+
+            AlertUtil.showError(
+                    e.getMessage()
+            );
+        }
     }
 
-    // Atualiza a tabela, limpa e mostra a mensagem
+    // Atualiza a tela após uma operação
     private void finalizarOperacao(String mensagem) {
 
         carregarPedidos();
@@ -346,7 +367,7 @@ public class MainController {
         );
     }
 
-    // Limpa todos os campos
+    // Limpa os campos do formulário
     private void limparCampos() {
 
         txtNome.clear();

@@ -1,34 +1,60 @@
 package com.projeto_java.main;
 
+import com.projeto_java.controller.MainController;
+import com.projeto_java.service.CafeService;
+import com.projeto_java.service.ICafeService;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-//Inicializa a aplicação com JavaFX
-
+// Inicializa a aplicação JavaFX
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
 
+        // Cria o serviço da aplicação
+        ICafeService cafeService = new CafeService();
+
+        // Localiza o arquivo FXML
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/com/projeto_java/main.fxml")
         );
 
-        Scene scene = new Scene(loader.load(), 1100, 720);
+        // Injeta o serviço no Controller
+        loader.setControllerFactory(controllerClass -> {
 
+            if (controllerClass == MainController.class) {
+                return new MainController(cafeService);
+            }
+
+            throw new IllegalArgumentException(
+                    "Controller não suportado: "
+                            + controllerClass.getName()
+            );
+        });
+
+        // Carrega a interface
+        Scene scene = new Scene(
+                loader.load(),
+                1320,
+                720
+        );
+
+        // Configura a janela
         stage.setTitle("🐈☕ Cafeteria dos Gatos");
-
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
-
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    // Encerra a aplicação corretamente
+    @Override
+    public void stop() {
+        System.out.println("Aplicação encerrada.");
     }
 }
