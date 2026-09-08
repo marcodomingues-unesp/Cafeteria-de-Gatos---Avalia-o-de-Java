@@ -1,11 +1,11 @@
 package com.projeto_java.validator;
 
-public class CampoObrigatorioValidador implements Validador<String> {
+public class CampoObrigatorioValidator implements Validator<String> {
 
     private final String nomeCampo;
     private final String valor;
 
-    public CampoObrigatorioValidador(String nomeCampo, String valor) {
+    public CampoObrigatorioValidator(String nomeCampo, String valor) {
         this.nomeCampo = nomeCampo;
         this.valor = valor;
     }

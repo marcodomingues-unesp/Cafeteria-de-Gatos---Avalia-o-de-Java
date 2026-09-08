@@ -2,7 +2,7 @@ package com.projeto_java.validator;
 
 import java.util.regex.Pattern;
 
-public class NomeValidator implements Validador<String> {
+public class NomeValidator implements Validator<String> {
 
     private static final Pattern NOME_PATTERN =
             Pattern.compile("^[a-zA-ZÀ-ÿ ]+$");

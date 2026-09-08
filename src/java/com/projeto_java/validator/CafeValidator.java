@@ -10,10 +10,10 @@ public class CafeValidator implements ICafeValidator {
     @Override
     public boolean validar(CafeDTO dadosCafe) {
 
-        List<Validador<String>> validadores = new ArrayList<>();
+        List<Validator<String>> validadores = new ArrayList<>();
 
         validadores.add(
-                new CampoObrigatorioValidador(
+                new CampoObrigatorioValidator(
                         "Nome do produto",
                         dadosCafe.getNomeProduto()
                 )
@@ -24,20 +24,20 @@ public class CafeValidator implements ICafeValidator {
         );
 
         validadores.add(
-                new CampoObrigatorioValidador(
+                new CampoObrigatorioValidator(
                         "Tamanho do café",
                         dadosCafe.getTamanhoProduto()
                 )
         );
 
         validadores.add(
-                new CampoObrigatorioValidador(
+                new CampoObrigatorioValidator(
                         "Tipo de torra",
                         dadosCafe.getTipoTorra()
                 )
         );
 
-        for (Validador<String> validador : validadores) {
+        for (Validator<String> validador : validadores) {
 
             if (!validador.validar(validador.getValor())) {
                 validador.getMensagemErro();
