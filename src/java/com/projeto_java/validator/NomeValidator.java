@@ -19,16 +19,16 @@ public class NomeValidator implements Validador<String> {
 
         if (nome == null || nome.trim().isEmpty()) {
             mensagemErro = "Informe o nome do produto.";
-            return true;
+            return false;
         }
 
         if (!NOME_PATTERN.matcher(nome.trim()).matches()) {
             mensagemErro = "Digite um nome de produto válido.";
-            return true;
+            return false;
         }
 
         mensagemErro = null;
-        return false;
+        return true;
     }
 
     @Override
@@ -36,7 +36,6 @@ public class NomeValidator implements Validador<String> {
         return mensagemErro;
     }
 
-    @Override
     public String getValor() {
         return valor;
     }

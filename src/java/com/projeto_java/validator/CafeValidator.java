@@ -2,9 +2,6 @@ package com.projeto_java.validator;
 
 import model.dto.CafeDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CafeValidator implements ICafeValidator {
 
     private String mensagemErro;
@@ -17,66 +14,53 @@ public class CafeValidator implements ICafeValidator {
             return false;
         }
 
-        List<Validador<String>> validadores =
-                new ArrayList<>();
-
-        validadores.add(
+        CampoObrigatorioValidator nomeObrigatorio =
                 new CampoObrigatorioValidator(
                         "Nome do produto",
                         dadosCafe.getNomeProduto()
-                )
-        );
+                );
 
-        validadores.add(
-                new NomeValidator(
-                        dadosCafe.getNomeProduto()
-                )
-        );
+        if (!nomeObrigatorio.validar(nomeObrigatorio.getValor())) {
+            mensagemErro = nomeObrigatorio.getMensagemErro();
+            return false;
+        }
 
-        validadores.add(
+        NomeValidator nomeValidator =
+                new NomeValidator(dadosCafe.getNomeProduto());
+
+        if (!nomeValidator.validar(dadosCafe.getNomeProduto())) {
+            mensagemErro = nomeValidator.getMensagemErro();
+            return false;
+        }
+
+        CampoObrigatorioValidator tamanhoObrigatorio =
                 new CampoObrigatorioValidator(
                         "Tamanho do café",
                         dadosCafe.getTamanhoProduto()
-                )
-        );
+                );
 
-        validadores.add(
+        if (!tamanhoObrigatorio.validar(tamanhoObrigatorio.getValor())) {
+            mensagemErro = tamanhoObrigatorio.getMensagemErro();
+            return false;
+        }
+
+        CampoObrigatorioValidator torraObrigatoria =
                 new CampoObrigatorioValidator(
                         "Tipo de torra",
                         dadosCafe.getTipoTorra()
-                )
-        );
-
-        for (Validador<String> validador : validadores) {
-
-            if (validador.validar(
-                    validador.getValor()
-            )) {
-
-                mensagemErro =
-                        validador.getMensagemErro();
-
-                return false;
-            }
-        }
-
-        Validador<Double> precoValidator =
-                new PrecoValidator(
-                        dadosCafe.getPreco()
                 );
 
-        if (precoValidator.validar(
-                precoValidator.getValor()
-        )) {
+        if (!torraObrigatoria.validar(torraObrigatoria.getValor())) {
+            mensagemErro = torraObrigatoria.getMensagemErro();
+            return false;
+        }
 
-            mensagemErro =
-                    precoValidator.getMensagemErro();
-
+        if (dadosCafe.getPreco() <= 0) {
+            mensagemErro = "O preço deve ser maior que zero.";
             return false;
         }
 
         mensagemErro = null;
-
         return true;
     }
 

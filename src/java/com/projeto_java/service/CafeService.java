@@ -26,17 +26,17 @@ public class CafeService implements ICafeService {
     @Override
     public void cadastrar(CafeDTO dadosCafe) {
 
-        if (cafeValidator.validar(dadosCafe)) {
-            cafeDAO.comprarCafe(dadosCafe);
-        }
+        validarCafe(dadosCafe);
+
+        cafeDAO.comprarCafe(dadosCafe);
     }
 
     @Override
     public void alterar(CafeDTO dadosCafe) {
 
-        if (cafeValidator.validar(dadosCafe)) {
-            cafeDAO.alterarPedido(dadosCafe);
-        }
+        validarCafe(dadosCafe);
+
+        cafeDAO.alterarPedido(dadosCafe);
     }
 
     @Override
@@ -47,5 +47,16 @@ public class CafeService implements ICafeService {
     @Override
     public void excluirTodos() {
         cafeDAO.excluirTodosPedidos();
+    }
+
+    // Valida antes de acessar o banco
+    private void validarCafe(CafeDTO dadosCafe) {
+
+        if (!cafeValidator.validar(dadosCafe)) {
+
+            throw new IllegalArgumentException(
+                    cafeValidator.getMensagemErro()
+            );
+        }
     }
 }

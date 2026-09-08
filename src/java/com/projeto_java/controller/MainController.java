@@ -2,10 +2,8 @@ package com.projeto_java.controller;
 
 import com.projeto_java.service.ICafeService;
 import com.projeto_java.util.AlertUtil;
-import com.projeto_java.validator.ICafeValidator;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -16,12 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.dto.CafeDTO;
 
 public class MainController {
-
-    public Button btnNovo;
-    public Button btnAlterar;
-    public Button btnLimpar;
-    public Button btnCancelar;
-    public Button btnExcluir;
 
     @FXML
     private TextField txtNome;
@@ -57,12 +49,8 @@ public class MainController {
     private TableColumn<CafeDTO, Double> colPreco;
 
     private final ICafeService cafeService;
-    private final ICafeValidator cafeValidator;
 
-    public MainController(
-            ICafeService cafeService,
-            ICafeValidator cafeValidator
-    ) {
+    public MainController(ICafeService cafeService) {
 
         if (cafeService == null) {
             throw new IllegalArgumentException(
@@ -70,14 +58,7 @@ public class MainController {
             );
         }
 
-        if (cafeValidator == null) {
-            throw new IllegalArgumentException(
-                    "O CafeValidator não pode ser null."
-            );
-        }
-
         this.cafeService = cafeService;
-        this.cafeValidator = cafeValidator;
     }
 
     @FXML
@@ -89,16 +70,16 @@ public class MainController {
         carregarPedidos();
     }
 
-    // Configura as opções dos combos
+    // Configura as opções dos campos de seleção
     private void configurarCombos() {
 
-        comboTamanho.getItems().addAll(
+        comboTamanho.getItems().setAll(
                 "Pequeno",
                 "Médio",
                 "Grande"
         );
 
-        comboTorra.getItems().addAll(
+        comboTorra.getItems().setAll(
                 "Clara",
                 "Média",
                 "Escura"
@@ -129,13 +110,12 @@ public class MainController {
         );
     }
 
-    // Atualiza o formulário ao selecionar um pedido
+    // Preenche o formulário quando um pedido é selecionado
     private void configurarSelecao() {
 
-        tablePedidos
-                .getSelectionModel()
+        tablePedidos.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((_, _, novoCafe) -> {
+                .addListener((observable, antigoCafe, novoCafe) -> {
 
                     if (novoCafe != null) {
                         preencherFormulario(novoCafe);
@@ -143,7 +123,7 @@ public class MainController {
                 });
     }
 
-    // Preenche o formulário com os dados selecionados
+    // Preenche os campos com os dados do pedido selecionado
     private void preencherFormulario(CafeDTO dadosCafe) {
 
         txtNome.setText(
@@ -161,6 +141,8 @@ public class MainController {
         comboTorra.setValue(
                 dadosCafe.getTipoTorra()
         );
+
+        lblMensagem.setText("");
     }
 
     // Cadastra um novo pedido
@@ -171,25 +153,22 @@ public class MainController {
 
             CafeDTO dadosCafe = criarCafe();
 
-            if (!cafeValidator.validar(dadosCafe)) {
-
-                lblMensagem.setText(
-                        cafeValidator.getMensagemErro()
-                );
-
-                return;
-            }
-
             cafeService.cadastrar(dadosCafe);
 
             finalizarOperacao(
                     "Pedido cadastrado com sucesso."
             );
 
+        } catch (IllegalArgumentException e) {
+
+            lblMensagem.setText(
+                    e.getMessage()
+            );
+
         } catch (RuntimeException e) {
 
-            AlertUtil.showWarning(
-                    e.getMessage()
+            AlertUtil.showError(
+                    obterMensagemErro(e)
             );
         }
     }
@@ -208,12 +187,9 @@ public class MainController {
 
             preencherCafe(dadosCafe);
 
-            if (!cafeValidator.validar(dadosCafe)) {
-
-                lblMensagem.setText(
-                        cafeValidator.getMensagemErro()
-                );
-
+            if (!AlertUtil.showConfirmation(
+                    "Deseja realmente alterar este pedido?"
+            )) {
                 return;
             }
 
@@ -223,15 +199,21 @@ public class MainController {
                     "Pedido alterado com sucesso."
             );
 
+        } catch (IllegalArgumentException e) {
+
+            lblMensagem.setText(
+                    e.getMessage()
+            );
+
         } catch (RuntimeException e) {
 
-            AlertUtil.showWarning(
-                    e.getMessage()
+            AlertUtil.showError(
+                    obterMensagemErro(e)
             );
         }
     }
 
-    // Cancela o pedido selecionado
+    // Cancela somente o pedido selecionado
     @FXML
     private void cancelarPedido() {
 
@@ -249,18 +231,29 @@ public class MainController {
 
         try {
 
-            cafeService.cancelar(
-                    dadosCafe.getId()
-            );
+            int idPedido = dadosCafe.getId();
 
-            finalizarOperacao(
+            // Exclui somente o pedido selecionado no banco
+            cafeService.cancelar(idPedido);
+
+            // Atualiza a tabela com os dados atuais do banco
+            carregarPedidos();
+
+            // Limpa os campos do formulário
+            limparCampos();
+
+            // Remove a seleção da tabela
+            tablePedidos.getSelectionModel()
+                    .clearSelection();
+
+            AlertUtil.showInformation(
                     "Pedido cancelado com sucesso."
             );
 
         } catch (RuntimeException e) {
 
             AlertUtil.showError(
-                    e.getMessage()
+                    obterMensagemErro(e)
             );
         }
     }
@@ -268,6 +261,15 @@ public class MainController {
     // Exclui todos os pedidos
     @FXML
     private void excluirTudo() {
+
+        if (tablePedidos.getItems().isEmpty()) {
+
+            AlertUtil.showWarning(
+                    "Não existem pedidos para excluir."
+            );
+
+            return;
+        }
 
         if (!AlertUtil.showConfirmation(
                 "Deseja realmente excluir todos os pedidos?"
@@ -286,7 +288,7 @@ public class MainController {
         } catch (RuntimeException e) {
 
             AlertUtil.showError(
-                    e.getMessage()
+                    obterMensagemErro(e)
             );
         }
     }
@@ -297,12 +299,11 @@ public class MainController {
 
         limparCampos();
 
-        tablePedidos
-                .getSelectionModel()
+        tablePedidos.getSelectionModel()
                 .clearSelection();
     }
 
-    // Cria o DTO do pedido
+    // Cria um novo objeto CafeDTO
     private CafeDTO criarCafe() {
 
         CafeDTO dadosCafe = new CafeDTO();
@@ -316,7 +317,7 @@ public class MainController {
     private void preencherCafe(CafeDTO dadosCafe) {
 
         dadosCafe.setNomeProduto(
-                txtNome.getText().trim()
+                obterNome()
         );
 
         dadosCafe.setTamanhoProduto(
@@ -332,7 +333,17 @@ public class MainController {
         );
     }
 
-    // Converte o preço para número
+    // Obtém o nome informado
+    private String obterNome() {
+
+        if (txtNome.getText() == null) {
+            return "";
+        }
+
+        return txtNome.getText().trim();
+    }
+
+    // Converte o preço informado para número
     private double obterPreco() {
 
         String textoPreco = txtPreco.getText();
@@ -353,11 +364,13 @@ public class MainController {
 
         } catch (NumberFormatException e) {
 
-            return 0;
+            throw new IllegalArgumentException(
+                    "Digite um preço válido."
+            );
         }
     }
 
-    // Retorna o pedido selecionado
+    // Retorna o pedido atualmente selecionado
     private CafeDTO selecionarPedido() {
 
         CafeDTO dadosCafe = tablePedidos
@@ -374,8 +387,8 @@ public class MainController {
         return dadosCafe;
     }
 
-    // Atualiza a tabela com os pedidos
-    public void carregarPedidos() {
+    // Busca os pedidos no banco e atualiza a tabela
+    private void carregarPedidos() {
 
         try {
 
@@ -386,34 +399,51 @@ public class MainController {
         } catch (RuntimeException e) {
 
             AlertUtil.showError(
-                    e.getMessage()
+                    obterMensagemErro(e)
             );
         }
     }
 
-    // Finaliza a operação e atualiza a tela
+    // Finaliza uma operação e atualiza a interface
     private void finalizarOperacao(String mensagem) {
 
         carregarPedidos();
 
-        limparFormulario();
+        limparCampos();
+
+        tablePedidos.getSelectionModel()
+                .clearSelection();
 
         AlertUtil.showInformation(
                 mensagem
         );
     }
 
-    // Limpa os campos do formulário
+    // Limpa todos os campos do formulário
     private void limparCampos() {
 
         txtNome.clear();
 
         txtPreco.clear();
 
-        comboTamanho.setValue(null);
+        comboTamanho.getSelectionModel()
+                .clearSelection();
 
-        comboTorra.setValue(null);
+        comboTorra.getSelectionModel()
+                .clearSelection();
 
         lblMensagem.setText("");
+    }
+
+    // Retorna uma mensagem adequada para erros
+    private String obterMensagemErro(RuntimeException e) {
+
+        if (e.getMessage() == null ||
+                e.getMessage().trim().isEmpty()) {
+
+            return "Ocorreu um erro ao realizar a operação.";
+        }
+
+        return e.getMessage();
     }
 }
