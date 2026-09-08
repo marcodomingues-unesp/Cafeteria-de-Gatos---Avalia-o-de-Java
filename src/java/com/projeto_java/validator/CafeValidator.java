@@ -2,67 +2,50 @@ package com.projeto_java.validator;
 
 import model.dto.CafeDTO;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CafeValidator implements Validador<CafeDTO> {
-
-    private static final Pattern NOME_PATTERN =
-            Pattern.compile("^[a-zA-ZÀ-ÿ ]+$");
-
-    private final CafeDTO cafe;
-    private String mensagemErro;
-
-    public CafeValidator(CafeDTO cafe) {
-        this.cafe = cafe;
-    }
+public class CafeValidator implements ICafeValidator {
 
     @Override
-    public boolean validar(CafeDTO valorAtual) {
+    public boolean validar(CafeDTO dadosCafe) {
 
-        if (cafe == null) {
-            mensagemErro = "Informe os dados do café.";
-            return false;
+        List<Validador<String>> validadores = new ArrayList<>();
+
+        validadores.add(
+                new CampoObrigatorioValidador(
+                        "Nome do produto",
+                        dadosCafe.getNomeProduto()
+                )
+        );
+
+        validadores.add(
+                new NomeValidator(dadosCafe.getNomeProduto())
+        );
+
+        validadores.add(
+                new CampoObrigatorioValidador(
+                        "Tamanho do café",
+                        dadosCafe.getTamanhoProduto()
+                )
+        );
+
+        validadores.add(
+                new CampoObrigatorioValidador(
+                        "Tipo de torra",
+                        dadosCafe.getTipoTorra()
+                )
+        );
+
+        for (Validador<String> validador : validadores) {
+
+            if (!validador.validar(validador.getValor())) {
+                validador.getMensagemErro();
+                return false;
+            }
         }
 
-        if (cafe.getNomeProduto() == null ||
-                cafe.getNomeProduto().trim().isEmpty()) {
-            mensagemErro = "Informe o nome do produto.";
-            return false;
-        }
-
-        if (!NOME_PATTERN.matcher(cafe.getNomeProduto().trim()).matches()) {
-            mensagemErro = "Digite um nome de produto válido.";
-            return false;
-        }
-
-        if (cafe.getTamanhoProduto() == null ||
-                cafe.getTamanhoProduto().trim().isEmpty()) {
-            mensagemErro = "Selecione o tamanho do café.";
-            return false;
-        }
-
-        if (cafe.getTipoTorra() == null ||
-                cafe.getTipoTorra().trim().isEmpty()) {
-            mensagemErro = "Selecione o tipo de torra.";
-            return false;
-        }
-
-        if (cafe.getPreco() <= 0) {
-            mensagemErro = "Informe um preço válido.";
-            return false;
-        }
-
-        mensagemErro = null;
         return true;
     }
 
-    @Override
-    public String getMensagemErro() {
-        return mensagemErro;
-    }
-
-    @Override
-    public CafeDTO getValor() {
-        return cafe;
-    }
 }

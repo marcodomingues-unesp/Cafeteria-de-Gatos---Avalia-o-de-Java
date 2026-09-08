@@ -3,6 +3,8 @@ package com.projeto_java.main;
 import com.projeto_java.controller.MainController;
 import com.projeto_java.service.CafeService;
 import com.projeto_java.service.ICafeService;
+import com.projeto_java.validator.CafeValidator;
+import com.projeto_java.validator.ICafeValidator;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,16 +20,24 @@ public class Main extends Application {
         // Cria o serviço da aplicação
         ICafeService cafeService = new CafeService();
 
+        // Cria o validador da aplicação
+        ICafeValidator cafeValidator = new CafeValidator();
+
         // Localiza o arquivo FXML
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/projeto_java/main.fxml")
+                getClass().getResource(
+                        "/com/projeto_java/main.fxml"
+                )
         );
 
-        // Injeta o serviço no Controller
+        // Injeta as dependências no Controller
         loader.setControllerFactory(controllerClass -> {
 
             if (controllerClass == MainController.class) {
-                return new MainController(cafeService);
+                return new MainController(
+                        cafeService,
+                        cafeValidator
+                );
             }
 
             throw new IllegalArgumentException(

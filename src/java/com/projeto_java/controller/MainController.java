@@ -2,8 +2,10 @@ package com.projeto_java.controller;
 
 import com.projeto_java.service.ICafeService;
 import com.projeto_java.util.AlertUtil;
+import com.projeto_java.validator.ICafeValidator;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -15,7 +17,12 @@ import model.dto.CafeDTO;
 
 public class MainController {
 
-    // Campos do formulário
+    public Button btnNovo;
+    public Button btnAlterar;
+    public Button btnLimpar;
+    public Button btnCancelar;
+    public Button btnExcluir;
+
     @FXML
     private TextField txtNome;
 
@@ -31,7 +38,6 @@ public class MainController {
     @FXML
     private Label lblMensagem;
 
-    // Tabela de pedidos
     @FXML
     private TableView<CafeDTO> tablePedidos;
 
@@ -50,11 +56,13 @@ public class MainController {
     @FXML
     private TableColumn<CafeDTO, Double> colPreco;
 
-    // Serviço recebido pelo Main
     private final ICafeService cafeService;
+    private final ICafeValidator cafeValidator;
 
-    // Recebe o serviço por injeção de dependência
-    public MainController(ICafeService cafeService) {
+    public MainController(
+            ICafeService cafeService,
+            ICafeValidator cafeValidator
+    ) {
 
         if (cafeService == null) {
             throw new IllegalArgumentException(
@@ -62,10 +70,16 @@ public class MainController {
             );
         }
 
+        if (cafeValidator == null) {
+            throw new IllegalArgumentException(
+                    "O CafeValidator não pode ser null."
+            );
+        }
+
         this.cafeService = cafeService;
+        this.cafeValidator = cafeValidator;
     }
 
-    // Inicializa a tela
     @FXML
     public void initialize() {
 
@@ -75,7 +89,7 @@ public class MainController {
         carregarPedidos();
     }
 
-    // Define as opções dos ComboBox
+    // Configura as opções dos combos
     private void configurarCombos() {
 
         comboTamanho.getItems().addAll(
@@ -91,7 +105,7 @@ public class MainController {
         );
     }
 
-    // Liga as colunas aos atributos do DTO
+    // Configura as colunas da tabela
     private void configurarTabela() {
 
         colId.setCellValueFactory(
@@ -115,37 +129,37 @@ public class MainController {
         );
     }
 
-    // Preenche o formulário ao selecionar um pedido
+    // Atualiza o formulário ao selecionar um pedido
     private void configurarSelecao() {
 
         tablePedidos
                 .getSelectionModel()
                 .selectedItemProperty()
-                .addListener((_, _, newValue) -> {
+                .addListener((_, _, novoCafe) -> {
 
-                    if (newValue != null) {
-                        preencherFormulario(newValue);
+                    if (novoCafe != null) {
+                        preencherFormulario(novoCafe);
                     }
                 });
     }
 
-    // Mostra os dados do pedido nos campos
-    private void preencherFormulario(CafeDTO cafe) {
+    // Preenche o formulário com os dados selecionados
+    private void preencherFormulario(CafeDTO dadosCafe) {
 
         txtNome.setText(
-                cafe.getNomeProduto()
+                dadosCafe.getNomeProduto()
         );
 
         txtPreco.setText(
-                String.valueOf(cafe.getPreco())
+                String.valueOf(dadosCafe.getPreco())
         );
 
         comboTamanho.setValue(
-                cafe.getTamanhoProduto()
+                dadosCafe.getTamanhoProduto()
         );
 
         comboTorra.setValue(
-                cafe.getTipoTorra()
+                dadosCafe.getTipoTorra()
         );
     }
 
@@ -155,9 +169,13 @@ public class MainController {
 
         try {
 
-            CafeDTO cafe = criarCafe();
+            CafeDTO dadosCafe = criarCafe();
 
-            cafeService.cadastrar(cafe);
+            if (!cafeValidator.validar(dadosCafe)) {
+                return;
+            }
+
+            cafeService.cadastrar(dadosCafe);
 
             finalizarOperacao(
                     "Pedido cadastrado com sucesso."
@@ -175,17 +193,21 @@ public class MainController {
     @FXML
     private void alterarPedido() {
 
-        CafeDTO cafe = selecionarPedido();
+        CafeDTO dadosCafe = selecionarPedido();
 
-        if (cafe == null) {
+        if (dadosCafe == null) {
             return;
         }
 
         try {
 
-            preencherCafe(cafe);
+            preencherCafe(dadosCafe);
 
-            cafeService.alterar(cafe);
+            if (!cafeValidator.validar(dadosCafe)) {
+                return;
+            }
+
+            cafeService.alterar(dadosCafe);
 
             finalizarOperacao(
                     "Pedido alterado com sucesso."
@@ -203,13 +225,12 @@ public class MainController {
     @FXML
     private void cancelarPedido() {
 
-        CafeDTO cafe = selecionarPedido();
+        CafeDTO dadosCafe = selecionarPedido();
 
-        if (cafe == null) {
+        if (dadosCafe == null) {
             return;
         }
 
-        // Só continua se o usuário confirmar
         if (!AlertUtil.showConfirmation(
                 "Deseja realmente cancelar este pedido?"
         )) {
@@ -219,7 +240,7 @@ public class MainController {
         try {
 
             cafeService.cancelar(
-                    cafe.getId()
+                    dadosCafe.getId()
             );
 
             finalizarOperacao(
@@ -238,7 +259,6 @@ public class MainController {
     @FXML
     private void excluirTudo() {
 
-        // Só continua se o usuário confirmar
         if (!AlertUtil.showConfirmation(
                 "Deseja realmente excluir todos os pedidos?"
         )) {
@@ -261,7 +281,7 @@ public class MainController {
         }
     }
 
-    // Limpa o formulário e a seleção
+    // Limpa o formulário
     @FXML
     private void limparFormulario() {
 
@@ -272,70 +292,76 @@ public class MainController {
                 .clearSelection();
     }
 
-    // Cria um novo CafeDTO
+    // Cria o DTO do pedido
     private CafeDTO criarCafe() {
 
-        CafeDTO cafe = new CafeDTO();
+        CafeDTO dadosCafe = new CafeDTO();
 
-        preencherCafe(cafe);
+        preencherCafe(dadosCafe);
 
-        return cafe;
+        return dadosCafe;
     }
 
-    // Transfere os dados do formulário para o DTO
-    private void preencherCafe(CafeDTO cafe) {
+    // Preenche o DTO com os dados do formulário
+    private void preencherCafe(CafeDTO dadosCafe) {
 
-        cafe.setNomeProduto(
+        dadosCafe.setNomeProduto(
                 txtNome.getText().trim()
         );
 
-        cafe.setTamanhoProduto(
+        dadosCafe.setTamanhoProduto(
                 comboTamanho.getValue()
         );
 
-        cafe.setTipoTorra(
+        dadosCafe.setTipoTorra(
                 comboTorra.getValue()
         );
 
-        cafe.setPreco(
+        dadosCafe.setPreco(
                 obterPreco()
         );
     }
 
-    // Converte o preço para double
+    // Converte o preço para número
     private double obterPreco() {
+
+        String textoPreco = txtPreco.getText();
+
+        if (textoPreco == null ||
+                textoPreco.trim().isEmpty()) {
+
+            return 0;
+        }
 
         try {
 
             return Double.parseDouble(
-                    txtPreco.getText()
+                    textoPreco
                             .trim()
                             .replace(",", ".")
             );
 
         } catch (NumberFormatException e) {
 
-            throw new IllegalArgumentException(
-                    "Informe um preço válido."
-            );
+            return 0;
         }
     }
 
     // Retorna o pedido selecionado
     private CafeDTO selecionarPedido() {
 
-        CafeDTO cafe = tablePedidos
+        CafeDTO dadosCafe = tablePedidos
                 .getSelectionModel()
                 .getSelectedItem();
 
-        if (cafe == null) {
+        if (dadosCafe == null) {
 
             AlertUtil.showWarning(
                     "Selecione um pedido."
             );
         }
 
-        return cafe;
+        return dadosCafe;
     }
 
     // Atualiza a tabela com os pedidos
@@ -355,7 +381,7 @@ public class MainController {
         }
     }
 
-    // Atualiza a tela após uma operação
+    // Finaliza a operação e atualiza a tela
     private void finalizarOperacao(String mensagem) {
 
         carregarPedidos();

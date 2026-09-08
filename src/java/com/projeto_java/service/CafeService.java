@@ -2,13 +2,21 @@ package com.projeto_java.service;
 
 import model.dao.CafeDAO;
 import model.dto.CafeDTO;
+
 import com.projeto_java.validator.CafeValidator;
+import com.projeto_java.validator.ICafeValidator;
 
 import java.util.List;
 
 public class CafeService implements ICafeService {
 
-    private final CafeDAO cafeDAO = new CafeDAO();
+    private final CafeDAO cafeDAO;
+    private final ICafeValidator cafeValidator;
+
+    public CafeService() {
+        this.cafeDAO = new CafeDAO();
+        this.cafeValidator = new CafeValidator();
+    }
 
     @Override
     public List<CafeDTO> listarPedidos() {
@@ -16,15 +24,19 @@ public class CafeService implements ICafeService {
     }
 
     @Override
-    public void cadastrar(CafeDTO cafe) {
-        validar(cafe);
-        cafeDAO.comprarCafe(cafe);
+    public void cadastrar(CafeDTO dadosCafe) {
+
+        if (cafeValidator.validar(dadosCafe)) {
+            cafeDAO.comprarCafe(dadosCafe);
+        }
     }
 
     @Override
-    public void alterar(CafeDTO cafe) {
-        validar(cafe);
-        cafeDAO.alterarPedido(cafe);
+    public void alterar(CafeDTO dadosCafe) {
+
+        if (cafeValidator.validar(dadosCafe)) {
+            cafeDAO.alterarPedido(dadosCafe);
+        }
     }
 
     @Override
@@ -35,16 +47,5 @@ public class CafeService implements ICafeService {
     @Override
     public void excluirTodos() {
         cafeDAO.excluirTodosPedidos();
-    }
-
-    private void validar(CafeDTO cafe) {
-
-        CafeValidator validator = new CafeValidator(cafe);
-
-        if (!validator.validar(cafe)) {
-            throw new IllegalArgumentException(
-                    validator.getMensagemErro()
-            );
-        }
     }
 }

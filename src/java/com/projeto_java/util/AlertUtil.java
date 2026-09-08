@@ -50,8 +50,8 @@ public class AlertUtil {
         Optional<ButtonType> resultado =
                 alert.showAndWait();
 
-        return resultado.isPresent()
-                && resultado.get() == ButtonType.OK;
+        return resultado.isEmpty()
+                || resultado.get() != ButtonType.OK;
     }
 
     // Exibe o alerta na tela
