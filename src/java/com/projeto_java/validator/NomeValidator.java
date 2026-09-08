@@ -2,7 +2,7 @@ package com.projeto_java.validator;
 
 import java.util.regex.Pattern;
 
-public class NomeValidator implements Validator<String> {
+public class NomeValidator implements Validador<String> {
 
     private static final Pattern NOME_PATTERN =
             Pattern.compile("^[a-zA-ZÀ-ÿ ]+$");
@@ -19,16 +19,16 @@ public class NomeValidator implements Validator<String> {
 
         if (nome == null || nome.trim().isEmpty()) {
             mensagemErro = "Informe o nome do produto.";
-            return false;
+            return true;
         }
 
         if (!NOME_PATTERN.matcher(nome.trim()).matches()) {
             mensagemErro = "Digite um nome de produto válido.";
-            return false;
+            return true;
         }
 
         mensagemErro = null;
-        return true;
+        return false;
     }
 
     @Override
@@ -36,6 +36,7 @@ public class NomeValidator implements Validator<String> {
         return mensagemErro;
     }
 
+    @Override
     public String getValor() {
         return valor;
     }

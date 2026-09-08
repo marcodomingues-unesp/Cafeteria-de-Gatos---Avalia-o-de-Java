@@ -1,6 +1,6 @@
 package com.projeto_java.validator;
 
-public interface Validator<T> {
+public interface Validador<T> {
 
     boolean validar(T valor);
 

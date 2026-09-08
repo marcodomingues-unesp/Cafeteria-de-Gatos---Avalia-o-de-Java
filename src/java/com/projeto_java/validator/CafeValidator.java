@@ -7,10 +7,18 @@ import java.util.List;
 
 public class CafeValidator implements ICafeValidator {
 
+    private String mensagemErro;
+
     @Override
     public boolean validar(CafeDTO dadosCafe) {
 
-        List<Validator<String>> validadores = new ArrayList<>();
+        if (dadosCafe == null) {
+            mensagemErro = "Informe os dados do café.";
+            return false;
+        }
+
+        List<Validador<String>> validadores =
+                new ArrayList<>();
 
         validadores.add(
                 new CampoObrigatorioValidator(
@@ -20,7 +28,9 @@ public class CafeValidator implements ICafeValidator {
         );
 
         validadores.add(
-                new NomeValidator(dadosCafe.getNomeProduto())
+                new NomeValidator(
+                        dadosCafe.getNomeProduto()
+                )
         );
 
         validadores.add(
@@ -37,15 +47,41 @@ public class CafeValidator implements ICafeValidator {
                 )
         );
 
-        for (Validator<String> validador : validadores) {
+        for (Validador<String> validador : validadores) {
 
-            if (!validador.validar(validador.getValor())) {
-                validador.getMensagemErro();
+            if (validador.validar(
+                    validador.getValor()
+            )) {
+
+                mensagemErro =
+                        validador.getMensagemErro();
+
                 return false;
             }
         }
 
+        Validador<Double> precoValidator =
+                new PrecoValidator(
+                        dadosCafe.getPreco()
+                );
+
+        if (precoValidator.validar(
+                precoValidator.getValor()
+        )) {
+
+            mensagemErro =
+                    precoValidator.getMensagemErro();
+
+            return false;
+        }
+
+        mensagemErro = null;
+
         return true;
     }
 
+    @Override
+    public String getMensagemErro() {
+        return mensagemErro;
+    }
 }

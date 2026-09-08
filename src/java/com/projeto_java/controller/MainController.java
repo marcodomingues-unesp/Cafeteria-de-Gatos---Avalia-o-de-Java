@@ -172,6 +172,11 @@ public class MainController {
             CafeDTO dadosCafe = criarCafe();
 
             if (!cafeValidator.validar(dadosCafe)) {
+
+                lblMensagem.setText(
+                        cafeValidator.getMensagemErro()
+                );
+
                 return;
             }
 
@@ -204,6 +209,11 @@ public class MainController {
             preencherCafe(dadosCafe);
 
             if (!cafeValidator.validar(dadosCafe)) {
+
+                lblMensagem.setText(
+                        cafeValidator.getMensagemErro()
+                );
+
                 return;
             }
 
