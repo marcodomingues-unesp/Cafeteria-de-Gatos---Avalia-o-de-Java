@@ -50,6 +50,7 @@ public class MainController {
 
     private final ICafeService cafeService;
 
+    // Recebe o serviço por injeção de dependência
     public MainController(ICafeService cafeService) {
 
         if (cafeService == null) {
@@ -61,6 +62,7 @@ public class MainController {
         this.cafeService = cafeService;
     }
 
+    // Inicializa os componentes da tela
     @FXML
     public void initialize() {
 
@@ -70,7 +72,7 @@ public class MainController {
         carregarPedidos();
     }
 
-    // Configura as opções dos campos de seleção
+    // Define as opções dos campos de seleção
     private void configurarCombos() {
 
         comboTamanho.getItems().setAll(
@@ -86,7 +88,7 @@ public class MainController {
         );
     }
 
-    // Configura as colunas da tabela
+    // Define os dados exibidos nas colunas
     private void configurarTabela() {
 
         colId.setCellValueFactory(
@@ -110,12 +112,12 @@ public class MainController {
         );
     }
 
-    // Preenche o formulário quando um pedido é selecionado
+    // Preenche o formulário ao selecionar um pedido
     private void configurarSelecao() {
 
         tablePedidos.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((observable, antigoCafe, novoCafe) -> {
+                .addListener((_, _, novoCafe) -> {
 
                     if (novoCafe != null) {
                         preencherFormulario(novoCafe);
@@ -123,7 +125,7 @@ public class MainController {
                 });
     }
 
-    // Preenche os campos com os dados do pedido selecionado
+    // Mostra os dados do pedido no formulário
     private void preencherFormulario(CafeDTO dadosCafe) {
 
         txtNome.setText(
@@ -187,7 +189,7 @@ public class MainController {
 
             preencherCafe(dadosCafe);
 
-            if (!AlertUtil.showConfirmation(
+            if (AlertUtil.showConfirmation(
                     "Deseja realmente alterar este pedido?"
             )) {
                 return;
@@ -213,7 +215,7 @@ public class MainController {
         }
     }
 
-    // Cancela somente o pedido selecionado
+    // Cancela o pedido selecionado
     @FXML
     private void cancelarPedido() {
 
@@ -223,7 +225,7 @@ public class MainController {
             return;
         }
 
-        if (!AlertUtil.showConfirmation(
+        if (AlertUtil.showConfirmation(
                 "Deseja realmente cancelar este pedido?"
         )) {
             return;
@@ -233,16 +235,15 @@ public class MainController {
 
             int idPedido = dadosCafe.getId();
 
-            // Exclui somente o pedido selecionado no banco
+            // Remove apenas o pedido selecionado
             cafeService.cancelar(idPedido);
 
-            // Atualiza a tabela com os dados atuais do banco
+            // Atualiza os dados da tabela
             carregarPedidos();
 
-            // Limpa os campos do formulário
+            // Limpa o formulário e a seleção
             limparCampos();
 
-            // Remove a seleção da tabela
             tablePedidos.getSelectionModel()
                     .clearSelection();
 
@@ -271,7 +272,7 @@ public class MainController {
             return;
         }
 
-        if (!AlertUtil.showConfirmation(
+        if (AlertUtil.showConfirmation(
                 "Deseja realmente excluir todos os pedidos?"
         )) {
             return;
@@ -293,7 +294,7 @@ public class MainController {
         }
     }
 
-    // Limpa o formulário
+    // Limpa o formulário e a seleção
     @FXML
     private void limparFormulario() {
 
@@ -303,7 +304,7 @@ public class MainController {
                 .clearSelection();
     }
 
-    // Cria um novo objeto CafeDTO
+    // Cria o DTO com os dados do formulário
     private CafeDTO criarCafe() {
 
         CafeDTO dadosCafe = new CafeDTO();
@@ -313,7 +314,7 @@ public class MainController {
         return dadosCafe;
     }
 
-    // Preenche o DTO com os dados do formulário
+    // Transfere os dados do formulário para o DTO
     private void preencherCafe(CafeDTO dadosCafe) {
 
         dadosCafe.setNomeProduto(
@@ -343,7 +344,7 @@ public class MainController {
         return txtNome.getText().trim();
     }
 
-    // Converte o preço informado para número
+    // Converte o preço para número
     private double obterPreco() {
 
         String textoPreco = txtPreco.getText();
@@ -370,7 +371,7 @@ public class MainController {
         }
     }
 
-    // Retorna o pedido atualmente selecionado
+    // Retorna o pedido selecionado
     private CafeDTO selecionarPedido() {
 
         CafeDTO dadosCafe = tablePedidos
@@ -387,7 +388,7 @@ public class MainController {
         return dadosCafe;
     }
 
-    // Busca os pedidos no banco e atualiza a tabela
+    // Carrega os pedidos do banco
     private void carregarPedidos() {
 
         try {
@@ -404,7 +405,7 @@ public class MainController {
         }
     }
 
-    // Finaliza uma operação e atualiza a interface
+    // Atualiza a tela após uma operação
     private void finalizarOperacao(String mensagem) {
 
         carregarPedidos();
@@ -419,7 +420,7 @@ public class MainController {
         );
     }
 
-    // Limpa todos os campos do formulário
+    // Limpa os campos do formulário
     private void limparCampos() {
 
         txtNome.clear();
@@ -435,7 +436,7 @@ public class MainController {
         lblMensagem.setText("");
     }
 
-    // Retorna uma mensagem adequada para erros
+    // Garante uma mensagem de erro válida
     private String obterMensagemErro(RuntimeException e) {
 
         if (e.getMessage() == null ||

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public final class AlertUtil {
 
+    // Impede a criação de objetos da classe
     private AlertUtil() {
     }
 
@@ -52,7 +53,7 @@ public final class AlertUtil {
         alert.showAndWait();
     }
 
-    // Exibe uma confirmação antes de executar uma ação
+    // Solicita confirmação antes da ação
     public static boolean showConfirmation(String mensagem) {
 
         Alert alert = new Alert(
@@ -74,7 +75,7 @@ public final class AlertUtil {
         Optional<ButtonType> resultado =
                 alert.showAndWait();
 
-        return resultado.isPresent()
-                && resultado.get() == botaoOk;
+        return resultado.isEmpty()
+                || resultado.get() != botaoOk;
     }
 }

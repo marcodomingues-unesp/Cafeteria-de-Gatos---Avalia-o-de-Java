@@ -12,13 +12,15 @@ public class PrecoValidator implements Validador<Double> {
     @Override
     public boolean validar(Double preco) {
 
+        // Verifica se o preço é maior que zero
         if (preco == null || preco <= 0) {
             mensagemErro = "O preço deve ser maior que zero.";
-            return true;
+            return false;
         }
 
+        // Indica que a validação foi aprovada
         mensagemErro = null;
-        return false;
+        return true;
     }
 
     @Override

@@ -10,14 +10,14 @@ public class CampoObrigatorioValidator implements Validador<String> {
         this.valor = valor;
     }
 
-    // Verifica se o campo está vazio ou nulo
+    // Verifica se o campo foi preenchido
     @Override
     public boolean validar(String valorAtual) {
         return valorAtual != null
                 && !valorAtual.trim().isEmpty();
     }
 
-    // Retorna a mensagem do erro de validação
+    // Retorna a mensagem do erro
     @Override
     public String getMensagemErro() {
         return "O campo " + getCampo()
